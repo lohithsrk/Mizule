@@ -7,9 +7,9 @@ export const loginUser = async (values) =>
         ...values
     })
 
-export const signUpUser = async (values) =>
+export const signUpUser = async (values, otp, confirmOTP) =>
     await axios.post(`${base_URL}/signup`, {
-        ...values
+        ...values, otp, confirmOTP
     })
 
 

@@ -4,15 +4,15 @@ import { validateUser } from '../axios/validate.axios';
 
 const USER_STORAGE_KEY = 'USER_DATA'
 
-export const getUser = async (setUser) => {
+export const getPersistedUser = async (setUser) => {
     try {
         const user = await AsyncStorage.getItem(USER_STORAGE_KEY)
         if (user) {
             await validateUser(JSON.parse(user).token).then(res => {
-                return setUser(res.data)
+                return setUser(JSON.parse(user))
             }).catch(err => {
                 console.log(err);
-                setUser(USER_STORAGE_KEY, null)
+                persistUser(null)
             })
         } else {
             return null
@@ -22,7 +22,7 @@ export const getUser = async (setUser) => {
     }
 }
 
-export const setUser = async (userData) => {
+export const persistUser = async (userData) => {
     try {
         const userDataJSON = JSON.stringify(userData)
         await AsyncStorage.setItem(USER_STORAGE_KEY, userDataJSON)

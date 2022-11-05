@@ -2,55 +2,34 @@ import React, { useRef, useState } from 'react';
 import { View, Text, StatusBar, TextInput, Pressable } from 'react-native';
 import { Formik } from 'formik';
 import { useNavigation } from '@react-navigation/native';
-import OTPInputView from '@twotalltotems/react-native-otp-input';
 
-import { primary_color, windowWidth } from '../../utils/constants.util';
+import { primary_color } from '../../utils/constants.util';
 import { signUpValidationSchema } from '../../utils/validationSchema.util';
-import { setUser } from '../../persist/auth.persist';
 
-import { signUpUser } from '../../axios/auth.axios';
 import { generateOTP } from '../../axios/validate.axios';
 
-const SignUp = () => {
+const SignUp = ({ route }) => {
+	const email = route.params && route.params.email;
+
 	const emailRef = useRef();
 	const passwordRef = useRef();
 	const confirmPasswordRef = useRef();
 
-	const [validated, setValidated] = useState(true);
-	const [isOTPGenerateRequested, setIsOTPGenerateRequested] = useState(false);
-	const [OTP, setOTP] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const [errorMsg, setErrorMsg] = useState('');
 
 	const { navigate } = useNavigation();
 
-	const handleSignUpSubmit = async (values) => {
+	const generateOTPHandler = async (values) => {
 		setLoading(true);
-		await signUpUser(values)
+		await generateOTP(values.email)
 			.then((res) => {
-				setLoading(false);
-				setUser(res.data);
-				navigate('Main', {
-					screen: 'Zule'
-				});
-			})
-			.catch((err) => {
-				setLoading(false);
-				console.log(err.message);
-				setValidated(false);
-			});
-	};
-
-	const generateOTPHandler = async (email) => {
-		setLoading(true);
-		await generateOTP(email)
-			.then((res) => {
-				setOTP(res.data.otp);
-				setIsOTPGenerateRequested(true);
+				navigate('VerifyOTP', { otp: res.data.otp, values });
 				setLoading(false);
 			})
 			.catch((err) => {
 				setLoading(false);
-				console.log(err);
+				navigate('Login', { error: 'User already found. Try logging in.' });
 			});
 	};
 
@@ -65,8 +44,18 @@ const SignUp = () => {
 			}}
 		>
 			<Formik
-				initialValues={{ email: '', password: '', confirmPassword: '' }}
-				onSubmit={(values) => handleSignUpSubmit(values)}
+				initialValues={{
+					email: email ? email : '',
+					password: '',
+					confirmPassword: ''
+				}}
+				onSubmit={(values) => {
+					console.log(
+						'🚀 ~ file: Signup.screen.jsx ~ line 52 ~ SignUp ~ values',
+						values
+					);
+					generateOTPHandler(values);
+				}}
 				validationSchema={signUpValidationSchema}
 			>
 				{({
@@ -78,33 +67,21 @@ const SignUp = () => {
 					isValid
 				}) => {
 					return (
-						<View>
-							{!isOTPGenerateRequested ? (
-								<SignUpForm
-									handleChange={handleChange}
-									handleBlur={handleBlur}
-									handleSubmit={handleSubmit}
-									values={values}
-									errors={errors}
-									isValid={isValid}
-									passwordRef={passwordRef}
-									emailRef={emailRef}
-									confirmPasswordRef={confirmPasswordRef}
-									validated={validated}
-									generateOTPHandler={generateOTPHandler}
-									loading={loading}
-									navigate={navigate}
-								/>
-							) : (
-								<SubmitOTP
-									setIsOTPGenerateRequested={setIsOTPGenerateRequested}
-									handleSubmit={handleSubmit}
-									OTP={OTP}
-									loading={loading}
-									setLoading={setLoading}
-								/>
-							)}
-						</View>
+						<SignUpForm
+							handleChange={handleChange}
+							handleBlur={handleBlur}
+							handleSubmit={handleSubmit}
+							values={values}
+							errors={errors}
+							isValid={isValid}
+							passwordRef={passwordRef}
+							emailRef={emailRef}
+							confirmPasswordRef={confirmPasswordRef}
+							generateOTPHandler={generateOTPHandler}
+							loading={loading}
+							navigate={navigate}
+							errorMsg={errorMsg}
+						/>
 					);
 				}}
 			</Formik>
@@ -122,10 +99,10 @@ const SignUpForm = ({
 	passwordRef,
 	emailRef,
 	confirmPasswordRef,
-	validated,
 	generateOTPHandler,
 	loading,
-	navigate
+	navigate,
+	errorMsg
 }) => {
 	return (
 		<>
@@ -151,7 +128,6 @@ const SignUpForm = ({
 				emailRef={emailRef}
 				confirmPasswordRef={confirmPasswordRef}
 				handleSubmit={handleSubmit}
-				validated={validated}
 				isValid={isValid}
 			/>
 			<FormInput
@@ -166,7 +142,6 @@ const SignUpForm = ({
 				emailRef={emailRef}
 				confirmPasswordRef={confirmPasswordRef}
 				handleSubmit={handleSubmit}
-				validated={validated}
 				isValid={isValid}
 			/>
 			<FormInput
@@ -181,18 +156,17 @@ const SignUpForm = ({
 				emailRef={emailRef}
 				confirmPasswordRef={confirmPasswordRef}
 				handleSubmit={handleSubmit}
-				validated={validated}
 				isValid={isValid}
 			/>
+			{errorMsg && <Text style={{ fontSize: 16 }}>{errorMsg}</Text>}
+
 			<Pressable style={{ marginBottom: 15 }} onPress={() => navigate('Login')}>
 				<Text style={{ fontSize: 16 }}>Already have an account?</Text>
 			</Pressable>
 			<Pressable
-				onPress={() =>
-					values.email.length && isValid && generateOTPHandler(values.email)
-				}
 				style={{
 					backgroundColor:
+						!loading &&
 						isValid &&
 						values.email.length &&
 						values.password.length &&
@@ -202,6 +176,16 @@ const SignUpForm = ({
 					padding: 10,
 					borderRadius: 10
 				}}
+				disabled={
+					!loading &&
+					isValid &&
+					values.email.length &&
+					values.password.length &&
+					values.confirmPassword.length
+						? false
+						: true
+				}
+				onPress={handleSubmit}
 			>
 				<Text
 					style={{
@@ -212,15 +196,6 @@ const SignUpForm = ({
 						letterSpacing: 1,
 						textTransform: 'uppercase'
 					}}
-					disabled={
-						!loading &&
-						isValid &&
-						values.email.length &&
-						values.password.length &&
-						values.confirmPassword.length
-							? false
-							: true
-					}
 				>
 					{loading ? 'Sending OTP...' : 'Send OTP'}
 				</Text>
@@ -241,7 +216,6 @@ const FormInput = ({
 	passwordRef,
 	confirmPasswordRef,
 	handleSubmit,
-	validated,
 	isValid
 }) => {
 	return (
@@ -284,86 +258,13 @@ const FormInput = ({
 			/>
 			<Text
 				style={{
-					color: validated && isValid ? '#00ff00' : '#ff0000',
+					color: isValid ? '#00ff00' : '#ff0000',
 					marginBottom: 12
 				}}
 			>
-				{validated && isValid ? ' ' : value.length ? errorMsg : ''}
-				{!validated && label === 'Password'
-					? 'Invalid email or passwod. Try again...'
-					: ' '}
+				{isValid ? ' ' : value.length ? errorMsg : ''}
+				{!label === 'Password' ? 'Invalid email or passwod. Try again...' : ' '}
 			</Text>
-		</>
-	);
-};
-
-const SubmitOTP = ({
-	setIsOTPGenerateRequested,
-	handleSubmit,
-	OTP,
-	loading,
-	setLoading
-}) => {
-	const [isOTPValid, setIsOTPValid] = useState(false);
-
-	return (
-		<>
-			<Text
-				style={{
-					fontSize: 50,
-					fontWeight: '700',
-					color: 'white'
-				}}
-			>
-				Enter OTP
-			</Text>
-			<Text style={{ fontSize: 16 }}>OTP is sent to your email</Text>
-			<OTPInputView
-				style={{ width: windowWidth / 2, height: 70 }}
-				pinCount={6}
-				// code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
-				// onCodeChanged = {code => { this.setState({code})}}
-				autoFocusOnLoad={setIsOTPGenerateRequested}
-				codeInputFieldStyle={{
-					width: 30,
-					height: 45,
-					borderWidth: 0,
-					borderBottomWidth: 2,
-					borderColor: 'rgb(150, 150, 150)'
-				}}
-				codeInputHighlightStyle={{ borderColor: '#ffffff' }}
-				onCodeFilled={(code) => {
-					if (parseInt(OTP) == parseInt(code)) setIsOTPValid(true);
-				}}
-			/>
-			<Pressable
-				style={{ marginBottom: 15 }}
-				onPress={() => setIsOTPGenerateRequested(false)}
-			>
-				<Text style={{ fontSize: 16 }}>Wrong Email or Password?</Text>
-			</Pressable>
-			<Pressable
-				style={{
-					backgroundColor: isOTPValid ? 'white' : 'rgb(150,150,150)',
-					padding: 10,
-					borderRadius: 10
-				}}
-				onPress={handleSubmit}
-				disabled={!loading && !isOTPValid}
-			>
-				<Text
-					style={{
-						color: primary_color,
-						textAlign: 'center',
-						fontSize: 20,
-						fontWeight: '700',
-						letterSpacing: 1,
-						textTransform: 'uppercase'
-					}}
-				>
-					{loading ? 'Rolling In...' : 'Roll In!'}
-				</Text>
-			</Pressable>
 		</>
 	);
 };

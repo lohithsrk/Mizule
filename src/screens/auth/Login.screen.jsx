@@ -1,15 +1,18 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import { View, Text, StatusBar, TextInput, Pressable } from 'react-native';
 import { Formik } from 'formik';
 import { useNavigation } from '@react-navigation/native';
 
 import { primary_color } from '../../utils/constants.util';
 import { loginValidationSchema } from '../../utils/validationSchema.util';
-import { setUser } from '../../persist/auth.persist';
+import { AuthContext } from '../../context/auth.context';
 
 import { loginUser } from '../../axios/auth.axios';
 
-const Login = () => {
+const Login = ({ route }) => {
+	const error = route.params && route.params.error;
+	const { isLoggedIn, persistUser } = useContext(AuthContext);
+
 	const emailRef = useRef();
 	const passwordRef = useRef();
 
@@ -23,10 +26,9 @@ const Login = () => {
 		await loginUser(values)
 			.then((res) => {
 				setLoading(false);
-				setUser(res.data);
-				// navigate('Zules', {
-				// 	screen: 'Main'
-				// });
+				persistUser(res.data).then(() => {
+					isLoggedIn();
+				});
 			})
 			.catch((err) => {
 				console.log(err.message);
@@ -97,8 +99,11 @@ const Login = () => {
 								validated={validated}
 								isValid={isValid}
 							/>
+							{error && (
+								<Text style={{ fontSize: 16, marginBottom: 5 }}>{error}</Text>
+							)}
 							<Pressable
-								style={{ marginBottom: 15 }}
+								style={{ marginBottom: 5 }}
 								onPress={() => navigate('ForgotPassword')}
 							>
 								<Text style={{ fontSize: 16 }}>Forgot paaaword?</Text>
@@ -197,7 +202,7 @@ const FormInput = ({
 			<Text
 				style={{
 					color: validated && isValid ? '#00ff00' : '#ff0000',
-					marginBottom: 12
+					marginBottom: 8
 				}}
 			>
 				{validated && isValid ? ' ' : value.length ? errorMsg : ''}

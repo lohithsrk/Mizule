@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import Login from '../screens/auth/Login.screen';
 import Signup from '../screens/auth/Signup.screen';
+import VerifyOTP from '../screens/auth/VerifyOTP.screen';
 import ForgotPassword from '../screens/auth/ForgotPassword.screen';
 
 const AuthNavigation = () => {
@@ -17,6 +18,7 @@ const AuthNavigation = () => {
 			>
 				<Screen name='Login' component={Login} />
 				<Screen name='Signup' component={Signup} />
+				<Screen name='VerifyOTP' component={VerifyOTP} />
 				<Screen name='ForgotPassword' component={ForgotPassword} />
 			</Navigator>
 		</NavigationContainer>

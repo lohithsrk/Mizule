@@ -17,9 +17,9 @@ export const ZulesProvider = ({ children }) => {
         getRandomZules(zuleOffset, user && user.token).then((res) => {
             if (!res.data.length) return
             const zules = res.data.map((zule) => {
-                const zuleTeaser = `${base_URL}/zules/${zule.id_channel}/${user.user.user_id}/${zule.id_zule}-teaser.mp4`;
-                const fullZule = `${base_URL}/zules/${zule.id_channel}/${user.user.user_id}/${zule.id_zule}-zule.mp4`;
-                const zuleThumbnail = `${base_URL}/zules/${zule.id_channel}/${user.user.user_id}/${zule.id_zule}-thumbnail.jpg`;
+                const zuleTeaser = `${base_URL}/zules/${zule.channel_id}/${user.id_user}/${zule.id_zule}-teaser.mp4`;
+                const fullZule = `${base_URL}/zules/${zule.channel_id}/${user.id_user}/${zule.id_zule}-zule.mp4`;
+                const zuleThumbnail = `${base_URL}/zules/${zule.channel_id}/${user.id_user}/${zule.id_zule}-thumbnail.jpg`;
                 return { ...zule, zuleTeaser, fullZule, zuleThumbnail };
             });
             cacheVideo(zules[0].zuleTeaser, user.token);
@@ -34,9 +34,9 @@ export const ZulesProvider = ({ children }) => {
         getParticularZules(zuleID, user && user.token).then((res) => {
             if (!res.data.length) return
             const zule = res.data.map((zule) => {
-                const zuleTeaser = `${base_URL}/zules/${zule.id_channel}/${user.user.user_id}/${zule.id_zule}-teaser.mp4`;
-                const fullZule = `${base_URL}/zules/${zule.id_channel}/${user.user.user_id}/${zule.id_zule}-zule.mp4`;
-                const zuleThumbnail = `${base_URL}/zules/${zule.id_channel}/${user.user.user_id}/${zule.id_zule}-thumbnail.jpg`;
+                const zuleTeaser = `${base_URL}/zules/${zule.channel_id}/${user.id_user}/${zule.id_zule}-teaser.mp4`;
+                const fullZule = `${base_URL}/zules/${zule.channel_id}/${user.id_user}/${zule.id_zule}-zule.mp4`;
+                const zuleThumbnail = `${base_URL}/zules/${zule.channel_id}/${user.id_user}/${zule.id_zule}-thumbnail.jpg`;
                 return { ...zule, zuleTeaser, fullZule, zuleThumbnail };
             })[0]
             setCurrentZule(zule)

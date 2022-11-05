@@ -54,7 +54,7 @@ const CommentSectionModal = ({
 				<DescriptionSection zule={zule} />
 				<CommentSection
 					zule={zule}
-					comments={JSON.parse(zule.reviews_zules).comments}
+					comments={zule.reviews_zules.comments}
 				/>
 			</View>
 		</Modal>

@@ -1,6 +1,6 @@
 const RNFS = require('react-native-fs');
 
-export const cacheVideo = (videoUrl) => {
+export const cacheVideo = (videoUrl,token) => {
     let filename = videoUrl.substring(videoUrl.lastIndexOf("/") + 1, videoUrl.length);
     let path_name = RNFS.DocumentDirectoryPath + "/" + filename;
     RNFS.exists(path_name).then(exists => {
@@ -10,7 +10,7 @@ export const cacheVideo = (videoUrl) => {
             RNFS.downloadFile({
                 fromUrl: videoUrl,
                 toFile: path_name.replace(/%20/g, "_"),
-                background: true
+                background: true, headers: { 'Authorization': `Bearer ${token}` }
             })
                 .promise.then(res => {
                     console.log("File Downloaded", res);

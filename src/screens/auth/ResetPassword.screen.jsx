@@ -180,7 +180,7 @@ const FormInput = ({
 				returnKeyType={label === 'Password' ? 'next' : 'done'}
 				onSubmitEditing={() => {
 					if (label === 'Confirm Password') {
-						return;
+						return handleSubmit();
 					} else if (label === 'Password') {
 						return confirmPasswordRef.current.focus();
 					}

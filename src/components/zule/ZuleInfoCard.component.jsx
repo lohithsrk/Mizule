@@ -8,7 +8,7 @@ import FollowChannelCard from '../channel/FollowChannelCard.component';
 import CommentSectionModal from './CommentSectionModal.component';
 
 const ZuleInfoCard = ({ setIsTeaserPaused, zule, index, selectedIndex }) => {
-	const {navigate} = useNavigation();
+	const { navigate } = useNavigation();
 
 	const [isCommentsSectionOpen, setIsCommentsSectionOpen] = useState(false);
 
@@ -90,8 +90,8 @@ const ZuleInfoCard = ({ setIsTeaserPaused, zule, index, selectedIndex }) => {
 							style={{ width: 25, height: 25 }}
 						/>
 						<Text>
-							{JSON.parse(zule.reviews_zules)
-								? JSON.parse(zule.reviews_zules).likes
+							{zule.reviews_zules
+								? zule.reviews_zules.likes
 								: 0}
 						</Text>
 					</TouchableOpacity>
@@ -115,15 +115,13 @@ const ZuleInfoCard = ({ setIsTeaserPaused, zule, index, selectedIndex }) => {
 							style={{ width: 25, height: 25 }}
 						/>
 						<Text>
-							{JSON.parse(zule.reviews_zules)
-								? JSON.parse(zule.reviews_zules).comments.length
+							{zule.reviews_zules
+								? zule.reviews_zules.comments.length
 								: 0}
 						</Text>
 					</TouchableOpacity>
 				</View>
-				<TouchableOpacity
-					onPress={() => navigate('WatchZule', { zule })}
-				>
+				<TouchableOpacity onPress={() => navigate('WatchZule', { zule })}>
 					<Text
 						style={{
 							backgroundColor: '#37AA9C',

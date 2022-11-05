@@ -29,10 +29,10 @@ const WatchZule = ({ route }) => {
 				<View>
 					<Text>{zule.title}</Text>
 					<View style={{ flexDirection: 'row' }}>
-						{JSON.parse(zule.category)?.map((category, index) => (
+						{zule.category?.map((category, index) => (
 							<Text>
 								{category}
-								{JSON.parse(zule.category).length - 1 !== index && ' • '}
+								{zule.category.length - 1 !== index && ' • '}
 							</Text>
 						))}
 					</View>
