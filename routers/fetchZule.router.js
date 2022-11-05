@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router()
 
 const { validateUser } = require('../middlewares/middlewares.util')
-const { getRandomZules, getParticularZule, feedZule, similarZules } = require('../controllers/zules.controller')
+const { getRandomZules, getParticularZule, feedZule, similarZules } = require('../controllers/fetchZule.controller')
 
 router.route('/random').get(validateUser, getRandomZules)
 router.route('/particular/:id_zule').get(validateUser, getParticularZule)

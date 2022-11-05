@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     const Zule = sequelize.define("zules", {
-        id: {
+        id_zule: {
             type: DataTypes.STRING,
             primaryKey: true,
         },
@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     })
 
-    // Zule.sync().then(() => console.log('ZULE MODEL CREATED')).catch((err) => console.log('ERROR ' + err))
+    // Zule.sync({force:true}).then(() => console.log('ZULE MODEL CREATED')).catch((err) => console.log('ERROR ' + err))
 
     return Zule
 }

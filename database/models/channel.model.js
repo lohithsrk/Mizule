@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     const Channel = sequelize.define("channels", {
-        id: {
+        id_channel: {
             type: DataTypes.STRING,
             primaryKey: true
         },

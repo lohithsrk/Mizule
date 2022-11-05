@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 
 const { transporter } = require('../utils/nodemailer.util')
+const { User } = require('../database/database')
 
 exports.validateUser = async (req, res) => {
     const token = req.headers.authorization;
@@ -25,10 +26,12 @@ exports.validateUser = async (req, res) => {
 }
 
 exports.generateOTP = async (req, res) => {
-    const { email } = req.body
-
-    const otp = Math.floor(100000 + Math.random() * 900000)
     try {
+        const { email } = req.body
+
+        const user = await User.count({ where: { email } })
+        if (user) return res.status(404).json({ error: 'User already found' })
+        const otp = Math.floor(100000 + Math.random() * 900000)
         await transporter.sendMail({
             from: process.env.EMAIL,
             to: email,
@@ -36,9 +39,8 @@ exports.generateOTP = async (req, res) => {
             html: `<p>${otp} is the OTP to register your Mizule account. The OTP is valid only for 2 minutes.</p>`,
         });
         return res.json({ otp })
-    } catch (e) {
-        console.log(e);
-        return res.status(400).json({ message: 'Cannot send email. Try again after some time.' })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error })
     }
-
 }

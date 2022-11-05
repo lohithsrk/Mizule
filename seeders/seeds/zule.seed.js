@@ -1,6 +1,6 @@
 module.exports = [
 	{
-		id: "635e8cffedd89",
+		id_zule: "635e8cffedd89",
 		title: "Demo_ZULE_1",
 		description: "Demo description 1",
 		channel_id: "5ece4797eaf5e",
@@ -11,7 +11,7 @@ module.exports = [
 		reviews: { comments: [{ user_id: "g2pc28g0l9vgb2ii", name: "srklohith05", comment: "Hi" }, { user_id: "g2pc28g0l9vgb2ii", name: "srklohith05", comment: "Hi" }], likes: [] },
 	},
 	{
-		id: "635e8cffedd90",
+		id_zule: "635e8cffedd90",
 		title: "Demo_ZULE_2",
 		description: "Demo description 2",
 		channel_id: "5ece4797eaf5e",
@@ -22,7 +22,7 @@ module.exports = [
 		reviews: { comments: [], likes: ["g2pc28g0l9vgb2ii"] },
 	},
 	{
-		id: "635e8cffedd91",
+		id_zule: "635e8cffedd91",
 		title: "Demo_ZULE_3",
 		description: "Demo description 3",
 		channel_id: "5ece4797eaf5e",
@@ -33,7 +33,7 @@ module.exports = [
 		reviews: { comments: [], likes: [] },
 	},
 	{
-		id: "635e8cffedd92",
+		id_zule: "635e8cffedd92",
 		title: "Demo_ZULE_4",
 		description: "Demo description 4",
 		channel_id: "5ece4797eaf5e",
@@ -44,7 +44,7 @@ module.exports = [
 		reviews: { comments: [{ user_id: "1c4ovl9x0sxwu", name: "Solosanty2064", comment: "Op" }, { user_id: "g2pc28g0l9vgb2ii", name: "srklohith05", comment: "Hello" }], likes: ["g2pc28g0l9vgb2ii"] },
 	},
 	{
-		id: "635e8cffedd93",
+		id_zule: "635e8cffedd93",
 		title: "Demo_ZULE_5",
 		description: "Demo description 5",
 		channel_id: "5ece4797eaf5e",

@@ -1,9 +1,10 @@
 
 module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define("users", {
-        id: {
+        id_user: {
             type: DataTypes.STRING,
-            primaryKey: true
+            primaryKey: true,
+            allowNull: false
         },
         name: {
             type: DataTypes.STRING,
@@ -11,23 +12,32 @@ module.exports = (sequelize, DataTypes) => {
         },
         email: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            unique: true,
+            validate: {
+                isEmail: true
+            }
         },
         phone: {
             type: DataTypes.STRING,
             validate: {
                 min: 13, max: 13
-            }
+            },
         },
         password: {
             type: DataTypes.STRING,
             allowNull: false
         },
         icon: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            validate: {
+                isUrl: true
+            },
+            defaultValue: 'https://img.icons8.com/fluency/48/000000/guest-male.png'
         },
         followed_channels: {
-            type: DataTypes.ARRAY(DataTypes.STRING), defaultValue: []
+            type: DataTypes.ARRAY(DataTypes.STRING),
+            defaultValue: []
         },
         subscription: {
             type: DataTypes.STRING,
