@@ -1,7 +1,10 @@
-<app-navigation-bar></app-navigation-bar>
+<app-navigation-bar *ngIf="windowWidth > 640; else mobNav"></app-navigation-bar>
+<ng-template #mobNav>
+  <app-navigation-mob-bar></app-navigation-mob-bar>
+</ng-template>
 <router-outlet></router-outlet>
 <app-footer></app-footer>
 
 <!-- Static components -->
 <app-aurora-bg></app-aurora-bg>
-<app-socials-floating></app-socials-floating>
+<app-socials-floating *ngIf="windowWidth > 640"></app-socials-floating>

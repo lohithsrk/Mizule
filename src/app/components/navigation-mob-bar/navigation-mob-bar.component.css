@@ -1,0 +1,12 @@
+a {
+  font-family: "Righteous", cursive;
+}
+
+.nav {
+  transform: translateX(100%);
+  transition: all 0.5s ease-in-out;
+}
+
+.nav.active {
+  transform: translateX(0%);
+}
