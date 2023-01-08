@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "git": "git add . && git commit -m Changes && git push origin client-web"
   },
   "private": true,
   "dependencies": {
