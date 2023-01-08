@@ -1,0 +1,10 @@
+.active.walk-through::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 2px;
+  right: 2px;
+  height: 3px;
+  border-radius: 10px;
+  background: linear-gradient(to right, #0f62ba, #bf1363);
+}

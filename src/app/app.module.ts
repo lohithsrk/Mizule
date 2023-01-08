@@ -3,16 +3,19 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
+import { LandingPageComponent } from './pages/landing-page/landing-page.component';
+import { HeroLandingPageComponent } from './components/landing-page/hero-landing-page/hero-landing-page.component';
+import { AuroraBgComponent } from './components/aurora-bg/aurora-bg.component';
+import { ZuleLandingPageComponent } from './components/landing-page/zule-landing-page/zule-landing-page.component';
+import { OpportunitiesLandingPageComponent } from './components/landing-page/opportunities-landing-page/opportunities-landing-page.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { SocialsFloatingComponent } from './components/socials-floating/socials-floating.component';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+  declarations: [AppComponent, NavigationBarComponent, LandingPageComponent, HeroLandingPageComponent, AuroraBgComponent, ZuleLandingPageComponent, OpportunitiesLandingPageComponent, FooterComponent, SocialsFloatingComponent],
+  imports: [BrowserModule, AppRoutingModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
