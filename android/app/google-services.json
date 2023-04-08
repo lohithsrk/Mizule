@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "611763272117",
+    "project_id": "mizule-1",
+    "storage_bucket": "mizule-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:611763272117:android:8714f82df909b7768201fc",
+        "android_client_info": {
+          "package_name": "com.mizule"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "611763272117-9fcqm21lebrrumi2s2l0vkfq0sit4pqc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mizule",
+            "certificate_hash": "92598076c5de5d4a934f1c9c6006f8b535eb6531"
+          }
+        },
+        {
+          "client_id": "611763272117-p2149tn0hu0u142bgjtq18qct2md5bj6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA__Mhxy1-g_sDPgof4D2jbvTHMYh9RbQg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "611763272117-m7ku2jcigqn2b6vgabhn7hja64l6cu0c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
