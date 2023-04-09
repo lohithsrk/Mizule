@@ -1,0 +1,28 @@
+{
+	"autorun": true,
+	"autokill": true,
+	"terminals": [
+		{
+			"name": "Web",
+			"cwd": "/e/Mizule/Mizule/web",
+			"command": "npm start",
+			"target": "server",
+			"split": "web",
+			"persistent": "mizule-web-server",
+			"substitution": false,
+			"recycle": false,
+			"open": true,
+			"focus": true,
+			"execute": false,
+			"dynamicTitle": true,
+
+			"onlySingle": true,
+			"onlyMultiple": true,
+			"onlyAPI": true,
+
+			"shellPath": "/bin/bash",
+			"shellArgs": ["--foo"],
+			"envInherit": false
+		}
+	]
+}

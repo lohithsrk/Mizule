@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.7a05f2c3.css",
+    "main.js": "/static/js/main.900f671c.js",
+    "static/media/hero.png": "/static/media/hero.73e84656a61cbe426cc1.png",
+    "static/media/logo-silver-png.png": "/static/media/logo-silver-png.571c6746e6b87835d1d5.png",
+    "static/media/appstore.svg": "/static/media/appstore.8c4986ee4828b47d16f5cd694ef065f2.svg",
+    "index.html": "/index.html",
+    "main.7a05f2c3.css.map": "/static/css/main.7a05f2c3.css.map",
+    "main.900f671c.js.map": "/static/js/main.900f671c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7a05f2c3.css",
+    "static/js/main.900f671c.js"
+  ]
+}
