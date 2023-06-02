@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Mizule</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="forgot_password_question">Forgot password ?</string>
+    <string name="enter_password">Enter password</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="don_t_have_an_account">Don\'t have an account ? \t</string>
+    <string name="email_example">patrick@mizule.com</string>
+    <string name="already_have_an_account">Already have an account ?\t</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="re_enter_password">Re-enter password</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="zules">Zules</string>
+    <string name="discover">Discover</string>
+    <string name="profile">Profile</string>
+    <string name="become_a_zulist">Become a Zulist?</string>
+    <string name="name">Name</string>
+    <string name="welcome">Welcome</string>
+    <string name="we_appreciate_your_interest_to_become_a_zulist">We appreciate your interest to become a Zulist</string>
+    <string name="zulespot_title">Zulespot title</string>
+    <string name="enter_your_zulespot_title">Enter your zulespot title</string>
+    <string name="create_zule">Create Zule</string>
+    <string name="title">Title</string>
+    <string name="enter_your_zule_tile">Enter your Zule tile</string>
+    <string name="description">Description</string>
+    <string name="enter_your_zule_description">Enter your Zule description</string>
+    <string name="thumbnail_16_9">Thumbnail (16:9)</string>
+    <string name="thumbnail_9_16">Thumbnail (9:16)</string>
+    <string name="teaser_9_16">Teaser (9:16)</string>
+    <string name="zule_16_9">Zule (16:9)</string>
+    <string name="upload_media">Upload media</string>
+    <string name="cbfc_rating">CBFC Rating</string>
+    <string name="tags">Tags</string>
+    <string name="genre">Genre</string>
+    <string name="keywords">Keywords</string>
+    <string name="enter_your_zule_keywods">Enter your zule keywods</string>
+    <string name="add">ADD</string>
+</resources>

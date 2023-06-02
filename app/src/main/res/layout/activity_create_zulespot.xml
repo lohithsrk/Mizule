@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".CreateZulespot"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    android:padding="@dimen/screen_padding">
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome"
+        android:textSize="30sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/we_appreciate_your_interest_to_become_a_zulist"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/zulespot_title"
+        android:textSize="@dimen/default_font_size"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"/>
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_your_zulespot_title"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="20dp"
+        android:background="@drawable/custom_input"
+        android:textSize="@dimen/default_font_size"
+        android:layout_marginTop="5dp"
+        android:id="@+id/zulespotTitle"
+        android:inputType="text"
+        android:textColorHint="@color/grey"
+        />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/createZulespot"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        app:cardCornerRadius="5dp"
+        android:backgroundTint="@color/white"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create Zulespot"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            />
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
