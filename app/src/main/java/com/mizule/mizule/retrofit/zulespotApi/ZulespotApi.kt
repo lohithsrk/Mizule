@@ -7,6 +7,9 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface ZulespotApi {
+    @POST("zulespot/{zulespotId}")
+    fun getZulespot(@Path("zulespotId") zulespotId:String): Call<Zulespot>
+
     @POST("zulespot/create")
     fun create(@Body body:MutableMap<String,String>): Call<Zulespot>
 }

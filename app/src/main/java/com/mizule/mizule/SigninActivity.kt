@@ -8,9 +8,11 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.google.gson.Gson
 import com.mizule.mizule.dataClass.userDataClass.User
+import com.mizule.mizule.dataClass.zulespotDataClass.Zulespot
 import com.mizule.mizule.databinding.ActivitySigninBinding
 import com.mizule.mizule.retrofit.RetrofitInstance
 import com.mizule.mizule.retrofit.authApi.AuthApi
+import com.mizule.mizule.retrofit.zulespotApi.ZulespotApi
 import com.mizule.mizule.utils.UserResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -39,16 +41,69 @@ class SigninActivity : AppCompatActivity() {
                         override fun onResponse(call: Call<User>, response: Response<User>) {
                             if(response.isSuccessful) {
                                 val user: User?=response.body()
-//                                val user: User? = userResponse?.user
-//                                user?.zulespot= userResponse?.zulespot!!
+                                Log.i("USERRR",user.toString())
+                                val userSharedPreferences = getSharedPreferences("USER", MODE_PRIVATE)
+                                val userEditor = userSharedPreferences.edit()
+                                userEditor.putString("USER", Gson().toJson(user))
+                                userEditor.apply()
+                                if(user?.zulespotId!=null) {
+                                    val zulespotService: ZulespotApi =
+                                        RetrofitInstance.getRetrofitInstance()
+                                            .create(ZulespotApi::class.java)
 
-                                val sharedPreferences=getSharedPreferences("USER", MODE_PRIVATE)
-                                val myEditor = sharedPreferences.edit()
-                                myEditor.putString("USER",Gson().toJson(user))
-                                myEditor.apply()
-                                val intent = Intent(this@SigninActivity, MainActivity::class.java)
-                                startActivity(intent)
-                                finish()
+                                    zulespotService.getZulespot(user.zulespotId.toString())
+                                        .enqueue(object : Callback<Zulespot> {
+                                                override fun onResponse(
+                                                    call: Call<Zulespot>,
+                                                    response: Response<Zulespot>
+                                                ) {
+                                                    if (response.isSuccessful) {
+                                                        val zulespot: Zulespot? = response.body()
+                                                        Log.i("USERRR",zulespot.toString())
+
+                                                        val zulespotSharedPreferences =
+                                                            getSharedPreferences(
+                                                                "ZULESPOT",
+                                                                MODE_PRIVATE
+                                                            )
+                                                        val zulespotEditor =
+                                                            zulespotSharedPreferences.edit()
+                                                        zulespotEditor.putString(
+                                                            "ZULESPOT",
+                                                            Gson().toJson(zulespot)
+                                                        )
+                                                        zulespotEditor.apply()
+
+
+                                                        val intent = Intent(
+                                                            this@SigninActivity,
+                                                            MainActivity::class.java
+                                                        )
+                                                        startActivity(intent)
+                                                        finish()
+                                                    }
+                                                }
+
+                                                override fun onFailure(
+                                                    call: Call<Zulespot>,
+                                                    t: Throwable
+                                                ) {
+                                                    Toast.makeText(
+                                                        this@SigninActivity,
+                                                        "Something went wrong",
+                                                        Toast.LENGTH_LONG
+                                                    ).show()
+                                                }
+                                            }
+                                        )
+                                }else {
+                                    val intent = Intent(
+                                        this@SigninActivity,
+                                        MainActivity::class.java
+                                    )
+                                    startActivity(intent)
+                                    finish()
+                                }
                             }else{
                                 Toast.makeText(this@SigninActivity, "Invalid Email or Password", Toast.LENGTH_LONG).show()
                             }

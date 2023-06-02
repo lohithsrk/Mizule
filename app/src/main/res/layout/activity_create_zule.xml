@@ -21,13 +21,7 @@
         layout="@layout/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-<com.google.android.material.radiobutton.MaterialRadioButton
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-android:button="@drawable/black_bg_tag"
-    android:text="Tags"
-    android:textColor="@color/white"
-    />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -92,46 +86,54 @@ android:button="@drawable/black_bg_tag"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="5dp">
-        <com.google.android.material.card.MaterialCardView
+
+
+        <RelativeLayout
+            android:gravity="center"
             android:id="@+id/thumbnail_16_9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="5dp"
-            android:backgroundTint="@color/white"
+            android:background="@drawable/custom_button_dark"
             android:layout_weight="1"
             android:layout_marginEnd="5dp"
+            app:strokeWidth="0dp"
             >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/thumbnail_16_9"
                 android:layout_gravity="center"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
+                android:id="@+id/thumbnail_16_9_text"
                 android:textStyle="bold"
                 android:textAllCaps="true"
                 android:layout_margin="15dp"
                 />
-        </com.google.android.material.card.MaterialCardView>
-        <com.google.android.material.card.MaterialCardView
+        </RelativeLayout>
+        <RelativeLayout
             android:id="@+id/thumbnail_9_16"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="5dp"
-            android:backgroundTint="@color/white"
+            app:strokeWidth="0dp"
+            android:background="@drawable/custom_button_dark"
             android:layout_weight="1"
             android:layout_marginStart="5dp"
+            android:gravity="center"
             >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/thumbnail_9_16"
                 android:layout_gravity="center"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textAllCaps="true"
                 android:layout_margin="15dp"
+                android:id="@+id/thumbnail_9_16_text"
                 />
-        </com.google.android.material.card.MaterialCardView>
+        </RelativeLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -139,32 +141,37 @@ android:button="@drawable/black_bg_tag"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="10dp">
-        <com.google.android.material.card.MaterialCardView
+        <RelativeLayout
             android:id="@+id/zuleVid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="5dp"
-            android:backgroundTint="@color/white"
+            android:background="@drawable/custom_button_dark"
             android:layout_weight="1"
             android:layout_marginEnd="5dp"
+            app:strokeWidth="0dp"
+            android:gravity="center"
             >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/zule_16_9"
                 android:layout_gravity="center"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textAllCaps="true"
                 android:layout_margin="15dp"
+                android:id="@+id/zule_text"
                 />
-        </com.google.android.material.card.MaterialCardView>
-        <com.google.android.material.card.MaterialCardView
+        </RelativeLayout>
+        <RelativeLayout
+            android:gravity="center"
             android:id="@+id/teaserVid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="5dp"
-            android:backgroundTint="@color/white"
+            app:strokeWidth="0dp"
+            android:background="@drawable/custom_button_dark"
             android:layout_weight="1"
             android:layout_marginStart="5dp"
             >
@@ -173,14 +180,15 @@ android:button="@drawable/black_bg_tag"
                 android:layout_height="wrap_content"
                 android:text="@string/teaser_9_16"
                 android:layout_gravity="center"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textAllCaps="true"
                 android:layout_margin="15dp"
+                android:id="@+id/teaser_text"
                 />
 
 
-        </com.google.android.material.card.MaterialCardView>
+        </RelativeLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
     <TextView
         android:layout_width="wrap_content"
@@ -189,6 +197,7 @@ android:button="@drawable/black_bg_tag"
         android:textSize="@dimen/default_font_size"
         android:layout_marginTop="10dp"
         android:textColor="@color/white"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cbfc_tags"
         android:layout_width="match_parent"
@@ -250,6 +259,7 @@ android:button="@drawable/black_bg_tag"
             android:src="@drawable/baseline_add_box_24"
             android:contentDescription="@string/add"
             android:layout_weight="60"
+            android:id="@+id/add_keyword"
             />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -266,18 +276,19 @@ android:button="@drawable/black_bg_tag"
         app:justifyContent="flex_start"
         app:alignItems="flex_start"/>
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/signinPost"
+        android:id="@+id/create_zule"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
         app:cardCornerRadius="5dp"
         android:backgroundTint="@color/white"
+        app:strokeWidth="0dp"
 
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create Zule"
+            android:text="@string/create_zule"
             android:layout_gravity="center"
             android:textColor="@color/black"
             android:textStyle="bold"

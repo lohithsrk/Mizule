@@ -7,7 +7,7 @@ data class User(
     var name:String,
     var email:String,
     var password:String,
-    var zulespotId:Any,
+    var zulespotId:String,
     var followed_zulespots:MutableList<String>,
     var watchLater:MutableList<String>,
     var subscription:String,
