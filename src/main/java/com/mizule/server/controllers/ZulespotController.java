@@ -14,6 +14,11 @@ import java.util.Map;
 public class ZulespotController {
     private final ZulespotService zulespotService;
 
+    @GetMapping("/{zulespotId}")
+    public ResponseEntity<?> getZulespot(@PathVariable String zulespotId){
+        return zulespotService.getZulespot(zulespotId);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<?> createZulespot(@RequestBody Map<String,String> body){
         return zulespotService.createZulespot(body);

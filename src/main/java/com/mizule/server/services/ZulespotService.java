@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -19,6 +20,15 @@ public class ZulespotService {
     private final ZulespotRepository zulespotRepository;
     private final UserRepository userRepository;
     private final ZuleRepository zuleRepository;
+
+    public ResponseEntity<?> getZulespot(String zulespotId) {
+        Optional<Zulespot> zulespot = zulespotRepository.findByTitle("zulespotId");
+        if(zulespot.isPresent()){
+            return ResponseEntity.ok(zulespot.get());
+        }else{
+            return ResponseEntity.badRequest().body("Invalid Request");
+        }
+    }
 
     public ResponseEntity<?> createZulespot(Map<String,String> body) {
         Optional<Users> user = userRepository.findById(body.get("userId"));
