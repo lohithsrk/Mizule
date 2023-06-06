@@ -2,15 +2,12 @@ package com.mizule.server.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.lang.NonNull;
 
 import java.util.List;
 
 @Entity
 @Table
-@AllArgsConstructor
 public class Zulespot {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -18,18 +15,10 @@ public class Zulespot {
 
     @Column(unique = true)
     private String title;
-
-    @Value("https://img.icons8.com/fluency/48/000000/guest-male.png")
-    private String icon;
+    private String icon="https://img.icons8.com/fluency/48/000000/guest-male.png";
     private String owner;
-    private List<String> followers_id;
-    private List<String> zules;
-
-
-    public Zulespot(){
-        this.followers_id=List.of();
-        this.zules=List.of();
-    }
+    private List<String> followers_id=List.of();
+    private List<String> zules=List.of();
 
     public String getzulespotId() {
         return zulespotId;

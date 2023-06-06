@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "api/v1/fetch")
@@ -12,10 +14,10 @@ public class FetchZuleController {
 
     private final FetchZuleService fetchZuleService;
 
-//    @GetMapping("/random")
-//    public ResponseEntity<?> randomZules(@RequestParam Integer offset){
-//        return fetchZuleService.randomZules(offset);
-//    }
+    @GetMapping("/random")
+    public ResponseEntity<?> randomZules(@RequestParam Integer offset,@RequestParam Integer limit){
+        return fetchZuleService.randomZules(offset,limit);
+    }
 
     @GetMapping("/particular/{zuleId}")
     public ResponseEntity<?> getParticularZule(@PathVariable String zuleId){
@@ -23,7 +25,7 @@ public class FetchZuleController {
     }
 
     @GetMapping("/{zulespotId}/{userId}/{zuleId}")
-    public ResponseEntity<?> getParticularZule(@PathVariable String zulespotId,@PathVariable String userId,@PathVariable String zuleId){
+    public ResponseEntity<?> getParticularZule(@PathVariable String zulespotId,@PathVariable String userId,@PathVariable String zuleId) throws IOException {
         return fetchZuleService.feedZule(zulespotId,userId,zuleId);
     }
 }

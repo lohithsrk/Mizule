@@ -7,9 +7,9 @@ import com.mizule.server.repositories.UserRepository;
 import com.mizule.server.repositories.ZuleRepository;
 import com.mizule.server.repositories.ZulespotRepository;
 import com.mizule.server.utils.Comment;
-import com.mizule.server.utils.File;
 import com.mizule.server.utils.ImageUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +26,12 @@ public class ZuleService {
     private final ZuleRepository zuleRepository;
     private final UserRepository userRepository;
     private final ZulespotRepository zulespotRepository;
+
+    @Value("${file.host}")
+    private String host;
+
+    private static final String FOLDER_PATH="C:/Users/srklo/Documents/Mizule/server/src/main/java/com/mizule/server/uploads/";
+
 
     public ResponseEntity<?> getLiked(String id) {
         try {
@@ -35,23 +42,30 @@ public class ZuleService {
 
         }
     }
-    public ResponseEntity<?> likeZule(String id, Map<String,String> body) {
-        Optional<Users> user = userRepository.findById(id);
+    public ResponseEntity<?> likeZule( Map<String,String> body) {
+        Optional<Users> user = userRepository.findById(body.get("userId"));
         Optional<Zule> zule = zuleRepository.findById(body.get("zuleId"));
         if (user.isEmpty() && zule.isEmpty()){
             return ResponseEntity.badRequest().body("Invalid request.");
         }
 
-
-        if(zule.get().getLikes().contains(id)){
-            zule.get().setLikes(zule.get().getLikes().stream().filter(f->!f.equals(id)).toList());
+        if(zule.get().getLikes().contains(body.get("userId"))){
+            zule.get().setLikes(zule.get().getLikes().stream().filter(f->!f.equals(body.get("userId"))).toList());
         } else {
             List<String>likes=zule.get().getLikes();
-            likes.add(id);
+            likes.add(body.get("userId"));
             zule.get().setLikes(likes);
+        }
+        if(user.get().getLiked().contains(body.get("zuleId"))){
+            user.get().setLiked(user.get().getLiked().stream().filter(f->!f.equals(body.get("zuleId"))).toList());
+        } else {
+            List<String>liked=user.get().getLiked();
+            liked.add(body.get("zuleId"));
+            user.get().setLiked(liked);
         }
 
         zuleRepository.save(zule.get());
+        userRepository.save(user.get());
         return ResponseEntity.ok("ok");
     }
 
@@ -68,31 +82,59 @@ public class ZuleService {
 
     }
 
-    public ResponseEntity<?> createZule(Map<String, String> body,
-                                        MultipartFile thumbnail_16_9,
-                                        MultipartFile thumbnail_9_16,
-                                        MultipartFile zule,
-                                        MultipartFile teaser) throws IOException {
-
+    public ResponseEntity<?> createZule(
+            Map<String,String> body,
+            MultipartFile thumbnail_16_9,
+            MultipartFile thumbnail_9_16,
+            MultipartFile zule,
+            MultipartFile teaser
+    ) throws IOException {
         Optional<Users> user = userRepository.findById(body.get("userId"));
         Optional<Zulespot> zulespot = zulespotRepository.findById(body.get("zulespotId"));
+
+
 
         if(user.isEmpty()||zulespot.isEmpty()) {
             return ResponseEntity.badRequest().body("Invalid request");
         }
 
+        String zuleId = UUID.randomUUID().toString();
+
         Zule newZule = new Zule(
+                zuleId,
                 body.get("title"),
                 body.get("description"),
-                List.of(body.get("tags").split(",")),
-                List.of(body.get("genre").split(",")),
+                List.of(body.get("tags")),
+                body.get("genre"),
                 body.get("cbfc_rating"),
                 body.get("zulespotId")
         );
-        File thumbnail_16_9_file = ImageUtils.fileBuilderUtil(thumbnail_16_9);
-        File thumbnail_9_16_file = ImageUtils.fileBuilderUtil(thumbnail_9_16);
-        File zule_file = ImageUtils.fileBuilderUtil(zule);
-        File teaser_file = ImageUtils.fileBuilderUtil(teaser);
+
+        java.io.File zulespotFolder = new java.io.File(FOLDER_PATH+zulespot.get().getTitle());
+        java.io.File zuleFolder = new java.io.File(FOLDER_PATH+zulespot.get().getTitle()+"/"+ zuleId);
+        if (!zulespotFolder.exists()) {
+            if (zulespotFolder.mkdirs()) {
+                zuleFolder.mkdirs();
+            }
+        } else {
+            zuleFolder.mkdirs();
+        }
+        if(
+                !(ImageUtils.uploadImageToFileSystem(thumbnail_16_9,"zule-thumbnail.jpg",zuleFolder) &&
+                        ImageUtils.uploadImageToFileSystem(thumbnail_9_16,"teaser-thumbnail.jpg",zuleFolder) &&
+                        ImageUtils.uploadImageToFileSystem(zule,"zule.mp4",zuleFolder) &&
+                        ImageUtils.uploadImageToFileSystem(teaser,"teaser.mp4",zuleFolder))
+        ){
+            if (zuleFolder.exists()) {
+                    zuleFolder.delete();
+            }
+            return ResponseEntity.badRequest().body("Something went wrong");
+        }
+
+        String thumbnail_16_9_file = host+"fetch/"+zulespot.get().getzulespotId()+"/"+user.get().getUserId()+"/"+zuleId+"_zule-thumbnail.jpg";
+        String thumbnail_9_16_file = host+"fetch/"+zulespot.get().getzulespotId()+"/"+user.get().getUserId()+"/"+zuleId+"_teaser-thumbnail.jpg";;
+        String zule_file = host+"fetch/"+zulespot.get().getzulespotId()+"/"+user.get().getUserId()+"/"+zuleId+"_zule.mp4";;
+        String teaser_file = host+"fetch/"+zulespot.get().getzulespotId()+"/"+user.get().getUserId()+"/"+zuleId+"_teaser.mp4";;
 
         newZule.setThumbnail_16_9(thumbnail_16_9_file);
         newZule.setThumbnail_9_16(thumbnail_9_16_file);
@@ -103,6 +145,7 @@ public class ZuleService {
         List<String> zules=zulespot.get().getZules();
         zules.add(newZule.getZuleId());
         zulespot.get().setZules(zules);
+        zulespotRepository.save(zulespot.get());
 
         return ResponseEntity.ok("ok");
 

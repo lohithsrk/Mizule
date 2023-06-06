@@ -31,12 +31,10 @@ public class AuthService {
     public ResponseEntity<?> signin(Map<String, String> cred){
         Optional<Users> user =userRepository.findByEmail(cred.get("email"));
         if(user.isEmpty() || !user.get().getPassword().equals(cred.get("password"))){
-            System.out.println("Invalid email or password");
         return ResponseEntity.badRequest().body("Invalid email or password");
         }
 
 //        Optional<Zulespot> zulespot=zulespotRepository.findByOwner(user.get().getUserId());
-        System.out.println("Signed in");
 
 //        if(zulespot.isPresent()){
 //            return ResponseEntity.ok(new UserResponse(user.get(), zulespot.get()));
@@ -53,7 +51,6 @@ public class AuthService {
 
 
         if(user.isPresent()){
-            System.out.println("User already exists");
             return ResponseEntity.badRequest().body("User already exists");
         }
 
@@ -64,8 +61,6 @@ public class AuthService {
         newUser.setName(newUser.getEmail().split("@")[0]);
 
         newUser = userRepository.save(newUser);
-
-        System.out.println("Signed up");
 
         return ResponseEntity.ok(newUser);
     }

@@ -19,6 +19,11 @@ public class ZulespotController {
         return zulespotService.getZulespot(zulespotId);
     }
 
+//    @GetMapping("/user/{userId}")
+//    public ResponseEntity<?> getZulespotWithUserId(@PathVariable String userId){
+//        return zulespotService.getZulespotWithUserId(userId);
+//    }
+
     @PostMapping("/create")
     public ResponseEntity<?> createZulespot(@RequestBody Map<String,String> body){
         return zulespotService.createZulespot(body);

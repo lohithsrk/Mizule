@@ -4,7 +4,6 @@ import com.mizule.server.utils.History;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
@@ -19,28 +18,20 @@ public class Users {
     private String name;
     private String email;
     private String password;
-    private String icon;
-    private List<String> followed_zulespots;
-    private List<String> watchlater;
+    private String icon="https://img.icons8.com/fluency/48/000000/guest-male.png";
+    private List<String> followed_zulespots=List.of();
+    private List<String> watchlater=List.of();
     private String subscription;
-    private List<String> liked;
+    private List<String> liked=List.of();
     private String zulespotId;
 
     @Embedded
-    private History history;
+    @OneToOne(cascade=CascadeType.ALL)
+    private History history=new History(List.of(),List.of());
 
     public Users(String email, String password) {
         this.email = email;
         this.password = password;
-    }
-
-    @PrePersist
-    void preInsert() {
-        if (this.icon == null)
-            this.icon = "https://img.icons8.com/fluency/48/000000/guest-male.png";
-
-        if (this.zulespotId == null)
-            this.zulespotId = "Not a Zulist";
     }
 
     public String getUserId() {

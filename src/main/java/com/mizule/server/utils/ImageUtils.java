@@ -2,55 +2,19 @@ package com.mizule.server.utils;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
-import java.util.zip.Deflater;
-import java.util.zip.Inflater;
 
 public class ImageUtils {
-
-    public static byte[] compressImage(byte[] data) {
-        Deflater deflater = new Deflater();
-        deflater.setLevel(Deflater.BEST_COMPRESSION);
-        deflater.setInput(data);
-        deflater.finish();
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
-        byte[] tmp = new byte[4*1024];
-        while (!deflater.finished()) {
-            int size = deflater.deflate(tmp);
-            outputStream.write(tmp, 0, size);
-        }
+    public static Boolean uploadImageToFileSystem(MultipartFile file,String name, java.io.File zuleFolder) throws IOException {
         try {
-            outputStream.close();
-        } catch (Exception ignored) {
+        String filePath=zuleFolder+"/"+name;
+
+        file.transferTo(new File(filePath));
+        return true;
+        } catch (Exception e) {
+            System.out.println(e);
+            return false;
         }
-        return outputStream.toByteArray();
     }
-
-
-
-    public static byte[] decompressImage(byte[] data) {
-        Inflater inflater = new Inflater();
-        inflater.setInput(data);
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
-        byte[] tmp = new byte[4*1024];
-        try {
-            while (!inflater.finished()) {
-                int count = inflater.inflate(tmp);
-                outputStream.write(tmp, 0, count);
-            }
-            outputStream.close();
-        } catch (Exception ignored) {
-        }
-        return outputStream.toByteArray();
-    }
-
-    public static File fileBuilderUtil(MultipartFile file) throws IOException {
-        return File.builder()
-                .fileName(file.getOriginalFilename())
-                .fileType(file.getContentType())
-                .fileData(ImageUtils.compressImage(file.getBytes())).build();
-    }
-
 }

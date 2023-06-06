@@ -1,7 +1,6 @@
 package com.mizule.server.models;
 
 import com.mizule.server.utils.Comment;
-import com.mizule.server.utils.File;
 import com.mizule.server.utils.Views;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,54 +15,41 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Zule {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String zuleId;
     private String title;
     private String description;
     private String zulespotId;
-    private List<String> tags;
-    private List<String> genre;
+    private List<String> tags=List.of();
+    private String genre;
 
     @Embedded
-    private Views views;
+    @OneToOne(cascade=CascadeType.ALL)
+    private Views views =new Views(List.of(),List.of());
 
     private String cbfc_rating;
 
-    private List<String> likes;
+    private List<String> likes=List.of();
 
     @Embedded
     @OneToMany(cascade=CascadeType.ALL)
     private List<Comment> comments;
-
-    @Lob
-    @Embedded
-    @Column(name = "zule", length = 1000)
-    private File zule;
-
-    @Lob
-    @Embedded
-    @Column(name = "teaser", length = 1000)
-    private File teaser;
-
-    @Lob
-    @Embedded
-    @Column(name = "thumbnail_16_9", length = 1000)
-    private File thumbnail_16_9;
-
-    @Lob
-    @Embedded
-    @Column(name = "thumbnail_9_16", length = 1000)
-    private File thumbnail_9_16;
+    private String zule;
+    private String teaser;
+    private String thumbnail_16_9;
+    private String thumbnail_9_16;
 
     public Zule(
+            String zuleId,
             String title,
             String description,
             List<String> tags,
-            List<String> genre,
+            String genre,
             String cbfc_rating,
             String zulespotId
     ) {
+        this.zuleId = zuleId;
         this.title = title;
         this.description = description;
         this.tags = tags;
@@ -112,11 +98,11 @@ public class Zule {
         this.tags = tags;
     }
 
-    public List<String> getGenre() {
+    public String getGenre() {
         return genre;
     }
 
-    public void setGenre(List<String> genre) {
+    public void setGenre(String genre) {
         this.genre = genre;
     }
 
@@ -152,35 +138,35 @@ public class Zule {
         this.comments = comments;
     }
 
-    public File getZule() {
+    public String getZule() {
         return zule;
     }
 
-    public void setZule(File zule) {
+    public void setZule(String zule) {
         this.zule = zule;
     }
 
-    public File getTeaser() {
+    public String getTeaser() {
         return teaser;
     }
 
-    public void setTeaser(File teaser) {
+    public void setTeaser(String teaser) {
         this.teaser = teaser;
     }
 
-    public File getThumbnail_16_9() {
+    public String getThumbnail_16_9() {
         return thumbnail_16_9;
     }
 
-    public void setThumbnail_16_9(File thumbnail_16_9) {
+    public void setThumbnail_16_9(String thumbnail_16_9) {
         this.thumbnail_16_9 = thumbnail_16_9;
     }
 
-    public File getThumbnail_9_16() {
+    public String getThumbnail_9_16() {
         return thumbnail_9_16;
     }
 
-    public void setThumbnail_9_16(File thumbnail_9_16) {
+    public void setThumbnail_9_16(String thumbnail_9_16) {
         this.thumbnail_9_16 = thumbnail_9_16;
     }
 }
