@@ -1,4 +1,4 @@
-package com.mizule.mizule
+package com.mizule.mizule.screens.auth
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,13 +6,13 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
+import com.mizule.mizule.screens.zules.MainActivity
+import com.mizule.mizule.R
 import com.mizule.mizule.dataClass.userDataClass.User
 import com.mizule.mizule.databinding.ActivitySignupBinding
 import com.mizule.mizule.retrofit.RetrofitInstance
 import com.mizule.mizule.retrofit.authApi.AuthApi
-import com.mizule.mizule.utils.UserResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,7 +21,9 @@ class SignupActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding : ActivitySignupBinding = DataBindingUtil.setContentView(this,R.layout.activity_signup)
+        val binding : ActivitySignupBinding = DataBindingUtil.setContentView(this,
+            R.layout.activity_signup
+        )
 
         binding.signupPost.setOnClickListener {
             val email = binding.email.text.toString()
@@ -43,12 +45,9 @@ class SignupActivity : AppCompatActivity() {
                     object : Callback<User> {
                         override fun onResponse(call: Call<User>, response: Response<User>) {
                             if(response.isSuccessful) {
-                                Log.i("LOKI",response.body().toString())
                                 val user: User?=response.body()
 //                                val user: User? = userResponse?.user
 //                                user?.zulespot= userResponse?.zulespot!!
-
-
                                 val sharedPreferences=getSharedPreferences("USER", MODE_PRIVATE)
                                 val myEditor = sharedPreferences.edit()
                                 myEditor.putString("USER",Gson().toJson(user))

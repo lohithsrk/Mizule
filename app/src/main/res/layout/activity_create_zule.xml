@@ -10,7 +10,7 @@
 <androidx.appcompat.widget.LinearLayoutCompat
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".CreateZule"
+    tools:context=".screens.zulespot.CreateZule"
     android:orientation="vertical"
     android:paddingHorizontal="20dp"
     >
@@ -199,7 +199,7 @@
         android:textColor="@color/white"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/cbfc_tags"
+        android:id="@+id/cbfcTags"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:itemCount="5"

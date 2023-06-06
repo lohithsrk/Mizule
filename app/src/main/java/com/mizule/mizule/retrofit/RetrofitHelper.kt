@@ -10,7 +10,7 @@ class RetrofitInstance {
         fun getRetrofitInstance():Retrofit{
             return Retrofit.Builder()
                 .baseUrl(Constants().baseUrl)
-                .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
+                .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
                 .build()
             }
         }

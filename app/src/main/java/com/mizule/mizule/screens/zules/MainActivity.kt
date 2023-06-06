@@ -1,13 +1,16 @@
-package com.mizule.mizule
+package com.mizule.mizule.screens.zules
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
+import com.mizule.mizule.screens.discover.DiscoverFragment
+import com.mizule.mizule.R
 import com.mizule.mizule.dataClass.userDataClass.User
 import com.mizule.mizule.databinding.ActivityMainBinding
+import com.mizule.mizule.screens.auth.WelcomeActivity
+import com.mizule.mizule.screens.profile.ProfileFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

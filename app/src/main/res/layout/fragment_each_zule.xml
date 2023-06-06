@@ -29,26 +29,28 @@
                 android:id="@+id/teaser"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
                 />
             <ImageView
                 android:id="@+id/thumbnail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"
                 android:src="@drawable/logo_portrait"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
                 app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="Thumbnail" />
+                android:contentDescription="@string/thumbnail" />
 
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/teaser_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/each_zule_background_gradient"
@@ -111,21 +113,21 @@
                 android:layout_below="@id/viewsCount"
                 android:src="@drawable/baseline_thumb_up_off_alt_24" />
 
-            <ImageView
-                android:id="@+id/comment_button"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_below="@id/like_button"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/baseline_chat_24" />
+<!--            <ImageView-->
+<!--                android:id="@+id/comment_button"-->
+<!--                android:layout_width="30dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_below="@id/like_button"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:src="@drawable/baseline_chat_24" />-->
 
-            <ImageView
-                android:id="@+id/share"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_below="@id/comment_button"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/baseline_send_24" />
+<!--            <ImageView-->
+<!--                android:id="@+id/share"-->
+<!--                android:layout_width="30dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_below="@id/comment_button"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:src="@drawable/baseline_send_24" />-->
 
         </RelativeLayout>
 
@@ -136,7 +138,9 @@
             android:src="@drawable/baseline_keyboard_double_arrow_up_24"
             app:layout_constraintBottom_toTopOf="@+id/slide_to_watch"
             app:layout_constraintEnd_toEndOf="@+id/relativeLayout"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+
+            />
 
         <TextView
             android:id="@+id/slide_to_watch"

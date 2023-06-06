@@ -1,18 +1,15 @@
-package com.mizule.mizule
+package com.mizule.mizule.screens.zulespot
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.google.gson.Gson
 import com.mizule.mizule.dataClass.userDataClass.User
 import com.mizule.mizule.dataClass.zulespotDataClass.Zulespot
 import com.mizule.mizule.databinding.ActivityCreateZulespotBinding
 import com.mizule.mizule.retrofit.RetrofitInstance
-import com.mizule.mizule.retrofit.authApi.AuthApi
 import com.mizule.mizule.retrofit.zulespotApi.ZulespotApi
-import com.mizule.mizule.utils.UserResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,18 +38,19 @@ class CreateZulespot : AppCompatActivity() {
                 object : Callback<Zulespot> {
                     override fun onResponse(call: Call<Zulespot>, response: Response<Zulespot>) {
                         if(response.isSuccessful) {
-                            val zulespot= response.body()!!
+                            val zulespot:Zulespot= response.body()!!
                             user.zulespotId=zulespot.zulespotId
 
-                            val zulespotEditor = zulespotSharedPreferences.edit()
-                            zulespotEditor.putString("ZULESPOT",Gson().toJson(zulespot))
-                            zulespotEditor.apply()
+//                            val zulespotEditor = zulespotSharedPreferences.edit()
+//                            zulespotEditor.putString("ZULESPOT",Gson().toJson(zulespot))
+//                            zulespotEditor.apply()
 
                             val userEditor = userSharedPreferences.edit()
                             userEditor.putString("USER",Gson().toJson(user))
                             userEditor.apply()
 
-                        val intent = Intent(this@CreateZulespot, CreateZule::class.java)
+                        val intent = Intent(this@CreateZulespot, ZulespotActivity::class.java)
+                        intent.putExtra("zulespot",Gson().toJson(zulespot))
                         startActivity(intent)
                         finish()
                         }else{

@@ -1,19 +1,23 @@
-package com.mizule.mizule
+package com.mizule.mizule.screens.zules
 
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LiveData
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
+import com.google.gson.Gson
+import com.mizule.mizule.R
 import com.mizule.mizule.adapters.ZuleSliderAdapter
-import com.mizule.mizule.dataClass.zulesDataClass.Zules
+import com.mizule.mizule.dataClass.userDataClass.User
+import com.mizule.mizule.dataClass.zulesDataClass.Zule
 import com.mizule.mizule.retrofit.RetrofitInstance
 import com.mizule.mizule.retrofit.zulesApi.FetchZulesApi
 import retrofit2.Call
@@ -22,8 +26,15 @@ import retrofit2.Response
 import kotlin.math.abs
 
 class ZuleFeedFragment : Fragment() {
+
+    lateinit var user:User
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val sharedPreferences = context?.getSharedPreferences("USER", AppCompatActivity.MODE_PRIVATE)
+        val userJSON= sharedPreferences?.getString("USER",null)
+        user = Gson().fromJson(userJSON, User::class.java)
+
     }
 
     override fun onCreateView(
@@ -35,13 +46,18 @@ class ZuleFeedFragment : Fragment() {
         val retService = RetrofitInstance.getRetrofitInstance().create(FetchZulesApi::class.java)
         val handler = Handler(Looper.myLooper()!!)
 
-        val call :Call<Zules> = retService.getRandomZules(0)
+        var offset=0
 
-        call.enqueue(object: Callback<Zules> {
-            override fun onResponse(call: Call<Zules>, response: Response<Zules>) {
-                viewPager2.adapter = response.body()?.let { ZuleSliderAdapter(it) }
+        val call :Call<List<Zule>> = retService.getRandomZules(offset,50)
+
+        call.enqueue(object: Callback<List<Zule>> {
+            override fun onResponse(call: Call<List<Zule>>, response: Response<List<Zule>>) {
+                viewPager2.adapter = response.body()?.let {
+                    context?.let { it1 -> ZuleSliderAdapter(it,user, it1) }
+                }
             }
-            override fun onFailure(call: Call<Zules>, t: Throwable) {
+            override fun onFailure(call: Call<List<Zule>>, t: Throwable) {
+                Log.i("ERRORR",t.toString())
             }
         })
 
