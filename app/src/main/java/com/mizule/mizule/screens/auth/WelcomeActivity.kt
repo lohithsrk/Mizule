@@ -1,21 +1,21 @@
 package com.mizule.mizule.screens.auth
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.mizule.mizule.screens.zules.MainActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.mizule.mizule.dataClass.userDataClass.User
 import com.mizule.mizule.databinding.ActivityWelcomeBinding
+import com.mizule.mizule.screens.zules.MainActivity
 
 class WelcomeActivity : AppCompatActivity() {
-    lateinit var user:User
+    lateinit var user: User
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityWelcomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE)
-        val userJSON=sharedPreferences.getString("USER",null)
+        val userJSON = sharedPreferences.getString("USER", null)
         if (userJSON != null) {
             val intent = Intent(this@WelcomeActivity, MainActivity::class.java)
             startActivity(intent)

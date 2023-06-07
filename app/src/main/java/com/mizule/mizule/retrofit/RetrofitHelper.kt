@@ -7,11 +7,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitInstance {
     companion object {
-        fun getRetrofitInstance():Retrofit{
+        fun getRetrofitInstance(): Retrofit {
             return Retrofit.Builder()
                 .baseUrl(Constants().baseUrl)
-                .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
+                .addConverterFactory(
+                    GsonConverterFactory.create(
+                        GsonBuilder().setLenient().create()
+                    )
+                )
                 .build()
-            }
         }
+    }
 }

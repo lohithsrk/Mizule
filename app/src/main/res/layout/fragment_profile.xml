@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".screens.profile.ProfileFragment">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
 
     <include
@@ -27,7 +25,8 @@
             android:id="@+id/profile_img"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/profile_img" />
+            android:src="@drawable/profile_img"
+            android:contentDescription="@string/profile_image"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
@@ -46,12 +45,11 @@
                 android:text="@string/name" />
 
             <TextView
+                android:id="@+id/become_Zulist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/become_a_zulist"
-                android:id="@+id/become_Zulist"/>
+                android:text="@string/become_a_zulist" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </RelativeLayout>
-</FrameLayout>
+</RelativeLayout>

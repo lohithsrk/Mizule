@@ -10,9 +10,9 @@ data class Zule(
     var views: ZuleViews,
     var cbfc_rating: String,
     var likes: MutableList<String>,
-    var comments:MutableList<Comment>,
-    var zule:String,
-    var teaser:String,
-    var thumbnail_16_9:String,
-    var thumbnail_9_16:String
-){}
+    var comments: MutableList<Comment>,
+    var zule: String,
+    var teaser: String,
+    var thumbnail_16_9: String,
+    var thumbnail_9_16: String
+) {}

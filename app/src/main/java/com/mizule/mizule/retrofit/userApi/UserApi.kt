@@ -7,5 +7,5 @@ import retrofit2.http.POST
 
 interface UserApi {
     @POST("user/history")
-    fun postHistory(@Body body:MutableMap<String,String>) : Call<History>
+    fun postHistory(@Body body: MutableMap<String, String>): Call<History>
 }

@@ -7,8 +7,8 @@ import retrofit2.http.POST
 
 interface AuthApi {
     @POST("auth/signup")
-    fun signup(@Body body:MutableMap<String,String>) :Call<User>
+    fun signup(@Body body: MutableMap<String, String>): Call<User>
 
     @POST("auth/signin")
-    fun signin(@Body body:MutableMap<String,String>) :Call<User>
+    fun signin(@Body body: MutableMap<String, String>): Call<User>
 }

@@ -1,6 +1,6 @@
 package com.mizule.mizule.dataClass.zulespotDataClass
 
- data class Zulespot(
+data class Zulespot(
     var zulespotId: String,
     var title: String,
     var icon: String,

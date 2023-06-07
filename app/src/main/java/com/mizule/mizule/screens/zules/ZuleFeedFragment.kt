@@ -1,14 +1,18 @@
 package com.mizule.mizule.screens.zules
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.children
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -27,12 +31,15 @@ import kotlin.math.abs
 
 class ZuleFeedFragment : Fragment() {
 
-    lateinit var user:User
+    lateinit var user: User
+    lateinit var viewPager2: ViewPager2
+    lateinit var adapter: ZuleSliderAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val sharedPreferences = context?.getSharedPreferences("USER", AppCompatActivity.MODE_PRIVATE)
-        val userJSON= sharedPreferences?.getString("USER",null)
+        val sharedPreferences =
+            context?.getSharedPreferences("USER", AppCompatActivity.MODE_PRIVATE)
+        val userJSON = sharedPreferences?.getString("USER", null)
         user = Gson().fromJson(userJSON, User::class.java)
 
     }
@@ -41,23 +48,26 @@ class ZuleFeedFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view =inflater.inflate(R.layout.fragment_zule_feed, container, false)
-        val viewPager2 = view.findViewById<ViewPager2>(R.id.viewPager2)
+        val view = inflater.inflate(R.layout.fragment_zule_feed, container, false)
+        viewPager2 = view.findViewById<ViewPager2>(R.id.viewPager2)
+
         val retService = RetrofitInstance.getRetrofitInstance().create(FetchZulesApi::class.java)
         val handler = Handler(Looper.myLooper()!!)
 
-        var offset=0
+        var offset = 0
 
-        val call :Call<List<Zule>> = retService.getRandomZules(offset,50)
+        val call: Call<List<Zule>> = retService.getRandomZules(offset, 50)
 
-        call.enqueue(object: Callback<List<Zule>> {
+        call.enqueue(object : Callback<List<Zule>> {
             override fun onResponse(call: Call<List<Zule>>, response: Response<List<Zule>>) {
-                viewPager2.adapter = response.body()?.let {
-                    context?.let { it1 -> ZuleSliderAdapter(it,user, it1) }
-                }
+                adapter = response.body()?.let {
+                    context?.let { it1 -> ZuleSliderAdapter(it, user, it1) }
+                }!!
+                viewPager2.adapter = adapter
             }
+
             override fun onFailure(call: Call<List<Zule>>, t: Throwable) {
-                Log.i("ERRORR",t.toString())
+                Log.i("ERRORR", t.toString())
             }
         })
 
@@ -66,9 +76,39 @@ class ZuleFeedFragment : Fragment() {
         viewPager2.clipChildren = false
         viewPager2.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
         setUpTransformer(viewPager2)
+
+        viewPager2.children.find { it is RecyclerView }?.let {
+            ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.UP) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
+
+                override fun getSwipeThreshold(viewHolder: RecyclerView.ViewHolder): Float {
+                    return 0.3f
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val intent = Intent(context, ZulePlayerActivity::class.java)
+                    intent.putExtra("zule", Gson().toJson(adapter.currentZule))
+                    intent.putExtra("user", Gson().toJson(user))
+                    context?.startActivity(intent)
+                    activity?.overridePendingTransition(
+                        com.google.android.material.R.anim.abc_fade_in,
+                        com.google.android.material.R.anim.abc_fade_out
+                    )
+                }
+
+            }).attachToRecyclerView(it as RecyclerView)
+        }
+
         return view
     }
-    private fun setUpTransformer(viewPager2:ViewPager2){
+
+    private fun setUpTransformer(viewPager2: ViewPager2) {
         val transformer = CompositePageTransformer()
         transformer.addTransformer(MarginPageTransformer(40))
         transformer.addTransformer { page, position ->
@@ -78,4 +118,12 @@ class ZuleFeedFragment : Fragment() {
 
         viewPager2.setPageTransformer(transformer)
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onResume() {
+        super.onResume()
+        viewPager2.adapter?.notifyDataSetChanged()
+    }
+
+
 }

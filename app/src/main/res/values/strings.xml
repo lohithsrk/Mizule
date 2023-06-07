@@ -39,4 +39,12 @@
     <string name="enter_your_zule_keywods">Enter your zule keywods</string>
     <string name="add">ADD</string>
     <string name="thumbnail">Thumbnail</string>
+    <string name="zule_thumbnail">Zule thumbnail</string>
+    <string name="zule_description">Zule description</string>
+    <string name="zule_title">Zule title</string>
+    <string name="u_a_action">U/A • Action</string>
+    <string name="_0">0</string>
+    <string name="teaser_thumbnail">Teaser thumbnail</string>
+    <string name="logo">Logo</string>
+    <string name="profile_image">Profile image</string>
 </resources>

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -14,7 +13,6 @@ import android.widget.TextView
 import android.widget.Toast
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.motion.widget.MotionController
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -26,47 +24,59 @@ import com.mizule.mizule.dataClass.zulesDataClass.Zule
 import com.mizule.mizule.retrofit.RetrofitInstance
 import com.mizule.mizule.retrofit.userApi.UserApi
 import com.mizule.mizule.retrofit.zulesApi.ZuleApi
-import com.mizule.mizule.screens.auth.WelcomeActivity
 import com.mizule.mizule.screens.zules.ZulePlayerActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class ZuleSliderAdapter(private val zules: List<Zule>,private val user:User,private var context:Context) :
+class ZuleSliderAdapter(
+    private val zules: List<Zule>,
+    private val user: User,
+    private var context: Context
+) :
     RecyclerView.Adapter<ZuleSliderAdapter.ZuleSliderHolder>() {
 
     val userSharedPreferences = context.getSharedPreferences("USER", AppCompatActivity.MODE_PRIVATE)
     val userEditor = userSharedPreferences.edit()
-
+    lateinit var currentZule: Zule
 
 
     class ZuleSliderHolder(itemView: ViewGroup) : RecyclerView.ViewHolder(itemView) {
         val thumbnail: ImageView = itemView.findViewById(R.id.thumbnail);
-        val teaser : VideoView = itemView.findViewById(R.id.teaser)
+        val teaser: VideoView = itemView.findViewById(R.id.teaser)
         val title: TextView = itemView.findViewById(R.id.zule_title);
         val description: TextView = itemView.findViewById(R.id.zule_description);
         val views: TextView = itemView.findViewById(R.id.viewsCount);
+        val viewsIcon: ImageView = itemView.findViewById(R.id.views);
         val likeButton: ImageView = itemView.findViewById(R.id.like_button);
-//        val commentButton: ImageView = itemView.findViewById(R.id.comment_button);
+
+        //        val commentButton: ImageView = itemView.findViewById(R.id.comment_button);
         val teaserDetails: ConstraintLayout = itemView.findViewById(R.id.teaser_details);
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ZuleSliderHolder {
-        val view:ViewGroup =
-            LayoutInflater.from(parent.context).inflate(R.layout.fragment_each_zule, parent, false) as ViewGroup
+        val view: ViewGroup =
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.fragment_each_zule, parent, false) as ViewGroup
         return ZuleSliderHolder(view)
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun onBindViewHolder(holder: ZuleSliderHolder, @SuppressLint("RecyclerView") position: Int) {
+    override fun onBindViewHolder(
+        holder: ZuleSliderHolder,
+        @SuppressLint("RecyclerView") position: Int
+    ) {
+
+        currentZule = zules[position]
 
         holder.title.text = zules[position].title
         holder.description.text = zules[position].description
         holder.views.text = zules[position].views.teaser.size.toString()
-        holder.likeButton.setImageResource(if (zules[position].likes.indexOf(user.userId)>=0) R.drawable.baseline_thumb_up_alt_24 else R.drawable.baseline_thumb_up_off_alt_24)
-        Glide.with(holder.thumbnail.context).load(zules[position].thumbnail_9_16).into(holder.thumbnail);
+        holder.likeButton.setImageResource(if (zules[position].likes.indexOf(user.userId) >= 0) R.drawable.baseline_thumb_up_alt_24 else R.drawable.baseline_thumb_up_off_alt_24)
+        Glide.with(holder.thumbnail.context).load(zules[position].thumbnail_9_16)
+            .into(holder.thumbnail);
         holder.teaser.setVideoPath(zules[position].teaser)
 
         holder.teaser.pause()
@@ -77,87 +87,91 @@ class ZuleSliderAdapter(private val zules: List<Zule>,private val user:User,priv
             body["zuleId"] = zules[position].zuleId
             body["userId"] = user.userId
 
-            val retService: ZuleApi = RetrofitInstance.getRetrofitInstance().create(ZuleApi::class.java)
+            val retService: ZuleApi =
+                RetrofitInstance.getRetrofitInstance().create(ZuleApi::class.java)
             retService.likeZule(body).enqueue(object : Callback<String> {
-                    override fun onResponse(call: Call<String>, response: Response<String>) {
-                        if(response.isSuccessful) {
-                            if (zules[position].likes.indexOf(user.userId)>=0){
-                                zules[position].likes.remove(user.userId)
-                                user.liked.remove(zules[position].zuleId)
-                                userEditor.putString("USER",Gson().toJson(user))
-                                userEditor.apply()
-                                holder.likeButton.setImageResource(R.drawable.baseline_thumb_up_off_alt_24)
-                            } else{
-                                zules[position].likes.add(user.userId)
-                                user.liked.add(zules[position].zuleId)
-                                userEditor.putString("USER",Gson().toJson(user))
-                                userEditor.apply()
-                                holder.likeButton.setImageResource(R.drawable.baseline_thumb_up_alt_24)
-                            }
+                override fun onResponse(call: Call<String>, response: Response<String>) {
+                    if (response.isSuccessful) {
+                        if (zules[position].likes.indexOf(user.userId) >= 0) {
+                            zules[position].likes.remove(user.userId)
+                            user.liked.remove(zules[position].zuleId)
+                            userEditor.putString("USER", Gson().toJson(user))
+                            userEditor.apply()
+                            holder.likeButton.setImageResource(R.drawable.baseline_thumb_up_off_alt_24)
+                        } else {
+                            zules[position].likes.add(user.userId)
+                            user.liked.add(zules[position].zuleId)
+                            userEditor.putString("USER", Gson().toJson(user))
+                            userEditor.apply()
+                            holder.likeButton.setImageResource(R.drawable.baseline_thumb_up_alt_24)
                         }
                     }
+                }
 
-                    override fun onFailure(call: Call<String>, t: Throwable) {
-                    }
-                })
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                }
+            })
         }
 
         holder.thumbnail.setOnClickListener {
-            holder.thumbnail.visibility=View.GONE
+            holder.thumbnail.visibility = View.GONE
             holder.teaser.start()
         }
 
         holder.teaser.setOnClickListener {
-            holder.thumbnail.visibility=View.VISIBLE
+            holder.thumbnail.visibility = View.VISIBLE
             holder.teaser.pause()
         }
 
         holder.teaser.setOnCompletionListener {
-            holder.thumbnail.visibility=View.VISIBLE
+            holder.thumbnail.visibility = View.VISIBLE
+            holder.teaser.stopPlayback()
 
             val body: MutableMap<String, String> = HashMap()
             body["zuleId"] = zules[position].zuleId
             body["userId"] = user.userId
             body["type"] = "teaser"
 
-            val retService: UserApi = RetrofitInstance.getRetrofitInstance().create(UserApi::class.java)
+            val retService: UserApi =
+                RetrofitInstance.getRetrofitInstance().create(UserApi::class.java)
 
             retService.postHistory(body).enqueue(
                 object : Callback<History> {
+                    @SuppressLint("NotifyDataSetChanged")
                     override fun onResponse(call: Call<History>, response: Response<History>) {
-                        if(response.isSuccessful){
-                            user.history= response.body()!!
-                            userEditor.putString("USER",Gson().toJson(user))
+                        if (response.isSuccessful) {
+                            user.history = response.body()!!
+                            userEditor.putString("USER", Gson().toJson(user))
                             userEditor.apply()
-                        }else {
-                            Log.i("ERRORR",response.body().toString())
+                            if (zules[position].views.teaser.indexOf(user.userId) == -1) {
+                                zules[position].views.teaser.add(user.userId)
+                                notifyDataSetChanged()
+                            }
+                        } else {
+                            Log.i("ERRORR", response.body().toString())
                         }
                     }
 
                     override fun onFailure(call: Call<History>, t: Throwable) {
-                        Log.i("ERRORR",t.toString())
+                        Log.i("ERRORR", t.toString())
                     }
                 }
             )
         }
 
         holder.teaser.setOnErrorListener(MediaPlayer.OnErrorListener { mp, what, extra ->
-            Toast.makeText(context,"Cannot play the teaser",Toast.LENGTH_LONG).show()
-            holder.thumbnail.visibility=View.VISIBLE
-            holder.teaser.pause()
+            Toast.makeText(context, "Cannot play the teaser", Toast.LENGTH_LONG).show()
+            holder.thumbnail.visibility = View.VISIBLE
+            holder.teaser.stopPlayback()
             return@OnErrorListener true
         })
 
-//        holder.teaserDetails.setOnTouchListener { v, event ->
-//            when(event.action) {
-//                MotionController.VERTICAL_PATH_Y -> {
-//                    var intent = Intent(context, ZulePlayerActivity::class.java)
-//                    context.startActivity(intent)
-//                }
-//            }
-//            true
-//        }
 
+        holder.viewsIcon.setOnClickListener {
+            var intent = Intent(context, ZulePlayerActivity::class.java)
+            intent.putExtra("zule", Gson().toJson(zules[position]))
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int = zules.size

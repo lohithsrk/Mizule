@@ -9,11 +9,11 @@ import retrofit2.http.Path
 
 interface ZulespotApi {
     @GET("zulespot/{zulespotId}")
-    fun getZulespot(@Path("zulespotId") zulespotId:String): Call<Zulespot>
+    fun getZulespot(@Path("zulespotId") zulespotId: String): Call<Zulespot>
 
 //    @GET("zulespot/user/{userId}")
 //    fun getZulespotWithUserId(@Path("userId") userId:String): Call<Zulespot>
 
     @POST("zulespot/create")
-    fun create(@Body body:MutableMap<String,String>): Call<Zulespot>
+    fun create(@Body body: MutableMap<String, String>): Call<Zulespot>
 }

@@ -13,13 +13,13 @@
         android:layout_height="wrap_content" />
 
     <Button
+        android:id="@+id/create_zule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="144dp"
         android:layout_marginTop="496dp"
         android:text="@string/create_zule"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include"
-        android:id="@+id/create_zule"/>
+        app:layout_constraintTop_toBottomOf="@+id/include" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,6 +20,7 @@ import com.mizule.mizule.R
 import com.mizule.mizule.adapters.CBFCAdapter
 import com.mizule.mizule.adapters.GenreAdapter
 import com.mizule.mizule.adapters.KeywordsAdapter
+import com.mizule.mizule.dataClass.zulesDataClass.Zule
 import com.mizule.mizule.dataClass.zulespotDataClass.Zulespot
 import com.mizule.mizule.databinding.ActivityCreateZuleBinding
 import com.mizule.mizule.retrofit.RetrofitInstance
@@ -39,6 +40,8 @@ class CreateZule : AppCompatActivity() {
     private lateinit var zulePath: String
     private lateinit var thumbnail_16_9_path: String
     private lateinit var thumbnail_9_16_path: String
+    lateinit var currentZule: Zule
+
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -184,7 +187,7 @@ class CreateZule : AppCompatActivity() {
             body.put("cbfc_rating", RequestBody.create(MultipartBody.FORM,cbfc_rating))
             body.put("genre", RequestBody.create(MultipartBody.FORM,genre))
             body.put("userId", RequestBody.create(MultipartBody.FORM,zulespot.owner))
-            body.put("tags", RequestBody.create(MultipartBody.FORM,keywords.toString()))
+            body.put("tags", RequestBody.create(MultipartBody.FORM, keywords.toString()))
             body.put("zulespotId", RequestBody.create(MultipartBody.FORM,zulespot.zulespotId))
 //TODO file ext validation, fields validation
             val thumbnail_9_16_filePart=filePart(thumbnail_9_16_path,"thumbnail_9_16")

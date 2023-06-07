@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="screen_padding">30dp</dimen>
+    <dimen name="screen_padding">15dp</dimen>
     <dimen name="button_radius">10dp</dimen>
     <dimen name="default_font_size">15sp</dimen>
 </resources>
