@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -22,27 +21,28 @@ public class UserService {
     private final ZuleRepository zuleRepository;
 
     public ResponseEntity<?> getHistory(String id) {
-        History history =userRepository.findById(id).get().getHistory();
+        History history = userRepository.findById(id).get().getHistory();
         return ResponseEntity.ok(history);
     }
-    public ResponseEntity<?> postHistory(Map<String,String> body) {
+
+    public ResponseEntity<?> postHistory(Map<String, String> body) {
         Optional<Users> user = userRepository.findById(body.get("userId"));
         Optional<Zule> zule = zuleRepository.findById(body.get("zuleId"));
 
-        if (user.isEmpty() && zule.isEmpty()){
+        if (user.isEmpty() && zule.isEmpty()) {
             return ResponseEntity.badRequest().body("Invalid request.");
         }
 
-        if(body.get("type").equals("teaser")) {
+        if (body.get("type").equals("teaser")) {
             if (!zule.get().getViews().getTeaser().contains(body.get("userId"))) {
                 Views views = zule.get().getViews();
                 views.getTeaser().add(body.get("userId"));
                 views.setTeaser(views.getTeaser());
                 zule.get().setViews(views);
-            } else{
+            } else {
                 Views views = zule.get().getViews();
                 views.getTeaser().remove(body.get("userId"));
-                views.getTeaser().add(0,body.get("userId"));
+                views.getTeaser().add(0, body.get("userId"));
                 views.setTeaser(views.getTeaser());
                 zule.get().setViews(views);
             }
@@ -54,20 +54,20 @@ public class UserService {
             } else {
                 History history = user.get().getHistory();
                 history.getTeasers().remove(body.get("zuleId"));
-                history.getTeasers().add(0,body.get("zuleId"));
+                history.getTeasers().add(0, body.get("zuleId"));
                 history.setTeasers(history.getTeasers());
                 user.get().setHistory(history);
             }
-        }else{
+        } else {
             if (!zule.get().getViews().getZule().contains(body.get("userId"))) {
                 Views views = zule.get().getViews();
                 views.getZule().add(body.get("userId"));
                 views.setTeaser(views.getZule());
                 zule.get().setViews(views);
-            } else{
+            } else {
                 Views views = zule.get().getViews();
                 views.getZule().remove(body.get("userId"));
-                views.getZule().add(0,body.get("userId"));
+                views.getZule().add(0, body.get("userId"));
                 views.setTeaser(views.getZule());
                 zule.get().setViews(views);
             }
@@ -79,7 +79,7 @@ public class UserService {
             } else {
                 History history = user.get().getHistory();
                 history.getZules().remove(body.get("zuleId"));
-                history.getZules().add(0,body.get("zuleId"));
+                history.getZules().add(0, body.get("zuleId"));
                 history.setTeasers(history.getZules());
                 user.get().setHistory(history);
             }

@@ -8,7 +8,6 @@ import com.mizule.server.repositories.ZuleRepository;
 import com.mizule.server.repositories.ZulespotRepository;
 import com.mizule.server.utils.ZuleResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,42 +28,42 @@ public class FetchZuleService {
     private final ZulespotRepository zulespotRepository;
     private final UserRepository userRepository;
 
-    private final String FOLDER_PATH="C:/Users/srklo/Documents/Mizule/server/src/main/java/com/mizule/server/uploads/";
+    private final String FOLDER_PATH = "C:/Users/srklo/Documents/Mizule/server/src/main/java/com/mizule/server/uploads/";
 
 
-    public ResponseEntity<?> randomZules(Integer offset,Integer limit) {
-        List<Zule> zules =  zuleRepository.findRandomZules(limit, offset);
+    public ResponseEntity<?> randomZules(Integer offset, Integer limit) {
+        List<Zule> zules = zuleRepository.findRandomZules(limit, offset);
         return ResponseEntity.ok(zules);
     }
 
     public ResponseEntity<?> getParticularZule(String zuleId) {
         Optional<Zule> zule = zuleRepository.findById(zuleId);
-        if(zule.isEmpty()) {
+        if (zule.isEmpty()) {
             return ResponseEntity.badRequest().body("Invalid request.");
         }
         Optional<Zulespot> zulespot = zulespotRepository.findById(zule.get().getZuleId());
-        if(zulespot.isEmpty()) {
+        if (zulespot.isEmpty()) {
             return ResponseEntity.badRequest().body("Invalid request.");
         }
 
-        ZuleResponse zuleResponse = new ZuleResponse(zule.get(),zulespot.get());
+        ZuleResponse zuleResponse = new ZuleResponse(zule.get(), zulespot.get());
 
         return ResponseEntity.ok(zuleResponse);
     }
 
-    public ResponseEntity<?> feedZule(String zulespotId,String userId,String zuleId) throws IOException {
+    public ResponseEntity<?> feedZule(String zulespotId, String userId, String zuleId) throws IOException {
         Optional<Users> user = userRepository.findById(userId);
         Optional<Zule> zule = zuleRepository.findById(zuleId.split("_")[0]);
         Optional<Zulespot> zulespot = zulespotRepository.findById(zulespotId);
 
 
-        if(user.isEmpty()||zulespot.isEmpty()||zule.isEmpty()){
+        if (user.isEmpty() || zulespot.isEmpty() || zule.isEmpty()) {
             return ResponseEntity.badRequest().body("Invalid request");
         }
-        String filePath=FOLDER_PATH+zulespot.get().getTitle()+"/"+zule.get().getZuleId();
+        String filePath = FOLDER_PATH + zulespot.get().getTitle() + "/" + zule.get().getZuleId();
         switch (zuleId.split("_")[1]) {
             case "teaser.mp4" -> filePath = filePath + "/teaser.mp4";
-            case "zule.mp4" -> filePath =  filePath + "/zule.mp4";
+            case "zule.mp4" -> filePath = filePath + "/zule.mp4";
             case "teaser-thumbnail.jpg" -> filePath = filePath + "/teaser-thumbnail.jpg";
             case "zule-thumbnail.jpg" -> filePath = filePath + "/zule-thumbnail.jpg";
         }
@@ -79,12 +78,12 @@ public class FetchZuleService {
 
         if (
                 zuleId.split("_")[1].equals("teaser-thumbnail.jpg") ||
-                zuleId.split("_")[1].equals("zule-thumbnail.jpg")
+                        zuleId.split("_")[1].equals("zule-thumbnail.jpg")
         ) {
             return ResponseEntity.ok()
                     .contentType(MediaType.valueOf("image/jpg"))
                     .body(fileContent);
-        }else {
+        } else {
             return ResponseEntity.ok()
                     .contentType(MediaType.valueOf("video/mp4"))
                     .body(fileContent);

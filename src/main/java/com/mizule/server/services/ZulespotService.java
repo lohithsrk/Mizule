@@ -21,9 +21,9 @@ public class ZulespotService {
 
     public ResponseEntity<?> getZulespot(String zulespotId) {
         Optional<Zulespot> zulespot = zulespotRepository.findById(zulespotId);
-        if(zulespot.isPresent()){
+        if (zulespot.isPresent()) {
             return ResponseEntity.ok(zulespot.get());
-        }else{
+        } else {
             return ResponseEntity.badRequest().body("Invalid Request");
         }
     }
@@ -40,29 +40,29 @@ public class ZulespotService {
 //           return ResponseEntity.ok(zulespot.get());
 //    }
 
-    public ResponseEntity<?> createZulespot(Map<String,String> body) {
+    public ResponseEntity<?> createZulespot(Map<String, String> body) {
         Optional<Users> user = userRepository.findById(body.get("userId"));
         Optional<Zulespot> zulespot = zulespotRepository.findByTitle(body.get("title"));
 
-        if(user.isEmpty()||zulespot.isPresent()){
+        if (user.isEmpty() || zulespot.isPresent()) {
             return ResponseEntity.badRequest().body("Try with a different Zulespot title");
         }
 
         Zulespot newZulespot = new Zulespot();
         newZulespot.setTitle(body.get("title"));
         newZulespot.setOwner(body.get("userId"));
-        newZulespot=zulespotRepository.save(newZulespot);
+        newZulespot = zulespotRepository.save(newZulespot);
 
         user.get().setZulespotId(newZulespot.getzulespotId());
         userRepository.save(user.get());
         return ResponseEntity.ok(newZulespot);
     }
 
-    public ResponseEntity<?> myZulesPost(Map<String,String> body) {
+    public ResponseEntity<?> myZulesPost(Map<String, String> body) {
         Optional<Users> user = userRepository.findById(body.get("userId"));
         Optional<Zulespot> zulespot = zulespotRepository.findById(body.get("zulespotId"));
 
-        if(user.isEmpty()||zulespot.isEmpty()){
+        if (user.isEmpty() || zulespot.isEmpty()) {
             ResponseEntity.badRequest().body("Invalid request.");
         }
         return ResponseEntity.ok(zuleRepository.findByZulespotId(body.get("zulespotId")).get());

@@ -1,8 +1,6 @@
 package com.mizule.server.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
@@ -15,10 +13,10 @@ public class Zulespot {
 
     @Column(unique = true)
     private String title;
-    private String icon="https://img.icons8.com/fluency/48/000000/guest-male.png";
+    private String icon = "https://img.icons8.com/fluency/48/000000/guest-male.png";
     private String owner;
-    private List<String> followers_id=List.of();
-    private List<String> zules=List.of();
+    private List<String> followers_id = List.of();
+    private List<String> zules = List.of();
 
     public String getzulespotId() {
         return zulespotId;

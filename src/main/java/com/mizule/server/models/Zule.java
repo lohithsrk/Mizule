@@ -21,34 +21,26 @@ public class Zule {
     private String title;
     private String description;
     private String zulespotId;
-    private List<String> tags=List.of();
+    private List<String> tags = List.of();
     private String genre;
 
     @Embedded
-    @OneToOne(cascade=CascadeType.ALL)
-    private Views views =new Views(List.of(),List.of());
+    @OneToOne(cascade = CascadeType.ALL)
+    private Views views = new Views(List.of(), List.of());
 
     private String cbfc_rating;
 
-    private List<String> likes=List.of();
+    private List<String> likes = List.of();
 
     @Embedded
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> comments;
     private String zule;
     private String teaser;
     private String thumbnail_16_9;
     private String thumbnail_9_16;
 
-    public Zule(
-            String zuleId,
-            String title,
-            String description,
-            List<String> tags,
-            String genre,
-            String cbfc_rating,
-            String zulespotId
-    ) {
+    public Zule(String zuleId, String title, String description, List<String> tags, String genre, String cbfc_rating, String zulespotId) {
         this.zuleId = zuleId;
         this.title = title;
         this.description = description;
@@ -130,6 +122,7 @@ public class Zule {
     public void setLikes(List<String> likes) {
         this.likes = likes;
     }
+
     public List<Comment> getComments() {
         return comments;
     }

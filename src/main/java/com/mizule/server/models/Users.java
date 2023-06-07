@@ -18,16 +18,16 @@ public class Users {
     private String name;
     private String email;
     private String password;
-    private String icon="https://img.icons8.com/fluency/48/000000/guest-male.png";
-    private List<String> followed_zulespots=List.of();
-    private List<String> watchlater=List.of();
+    private String icon = "https://img.icons8.com/fluency/48/000000/guest-male.png";
+    private List<String> followed_zulespots = List.of();
+    private List<String> watchlater = List.of();
     private String subscription;
-    private List<String> liked=List.of();
+    private List<String> liked = List.of();
     private String zulespotId;
 
     @Embedded
-    @OneToOne(cascade=CascadeType.ALL)
-    private History history=new History(List.of(),List.of());
+    @OneToOne(cascade = CascadeType.ALL)
+    private History history = new History(List.of(), List.of());
 
     public Users(String email, String password) {
         this.email = email;
@@ -124,18 +124,6 @@ public class Users {
 
     @Override
     public String toString() {
-        return "Users{" +
-                "id='" + userId + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", icon='" + icon + '\'' +
-                ", zulespot='" + zulespotId + '\'' +
-                ", followed_zulespots=" + followed_zulespots +
-                ", watchlater=" + watchlater +
-                ", subscription='" + subscription + '\'' +
-                ", history=" + history +
-                ", liked=" + liked +
-                '}';
+        return "Users{" + "id='" + userId + '\'' + ", name='" + name + '\'' + ", email='" + email + '\'' + ", password='" + password + '\'' + ", icon='" + icon + '\'' + ", zulespot='" + zulespotId + '\'' + ", followed_zulespots=" + followed_zulespots + ", watchlater=" + watchlater + ", subscription='" + subscription + '\'' + ", history=" + history + ", liked=" + liked + '}';
     }
 }

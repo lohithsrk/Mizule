@@ -1,13 +1,10 @@
 package com.mizule.server.controllers;
 
-import com.mizule.server.models.Users;
 import com.mizule.server.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -22,7 +19,7 @@ public class UserController {
     }
 
     @PostMapping("/history")
-    public ResponseEntity<?> history(@RequestBody Map<String,String> body) {
+    public ResponseEntity<?> history(@RequestBody Map<String, String> body) {
         return userService.postHistory(body);
     }
 

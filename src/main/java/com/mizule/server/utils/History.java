@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -18,9 +17,9 @@ public class History {
     private List<String> teasers;
     private List<String> zules;
 
-    public History(List<String> teasers, List<String> zules){
-        this.teasers=teasers;
-        this.zules=zules;
+    public History(List<String> teasers, List<String> zules) {
+        this.teasers = teasers;
+        this.zules = zules;
     }
 
     public String getHistoryId() {
