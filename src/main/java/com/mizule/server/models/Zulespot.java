@@ -58,6 +58,7 @@ public class Zulespot {
         this.followers_id = followers_id;
     }
 
+
     public List<String> getZules() {
         return zules;
     }
