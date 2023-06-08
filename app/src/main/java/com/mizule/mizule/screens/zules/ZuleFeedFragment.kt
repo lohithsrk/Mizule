@@ -2,6 +2,7 @@ package com.mizule.mizule.screens.zules
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
@@ -29,11 +31,12 @@ import retrofit2.Callback
 import retrofit2.Response
 import kotlin.math.abs
 
-class ZuleFeedFragment : Fragment() {
+class ZuleFeedFragment(private var zule:Zule?) : Fragment() {
 
     lateinit var user: User
     lateinit var viewPager2: ViewPager2
     lateinit var adapter: ZuleSliderAdapter
+    lateinit var zules:MutableList<Zule>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -56,17 +59,23 @@ class ZuleFeedFragment : Fragment() {
 
         var offset = 0
 
-        val call: Call<List<Zule>> = retService.getRandomZules(offset, 50)
+        retService.getRandomZules(offset, 50).enqueue(object : Callback<MutableList<Zule>> {
+            @RequiresApi(Build.VERSION_CODES.N)
+            override fun onResponse(call: Call<MutableList<Zule>>, response: Response<MutableList<Zule>>) {
 
-        call.enqueue(object : Callback<List<Zule>> {
-            override fun onResponse(call: Call<List<Zule>>, response: Response<List<Zule>>) {
-                adapter = response.body()?.let {
+                    zules= response.body()!!
+                if(zule!=null){
+                    zules.removeIf { it.zuleId== zule!!.zuleId }
+                    zules.add(0,zule!!)
+                }
+
+                adapter = zules.let {
                     context?.let { it1 -> ZuleSliderAdapter(it, user, it1) }
                 }!!
                 viewPager2.adapter = adapter
             }
 
-            override fun onFailure(call: Call<List<Zule>>, t: Throwable) {
+            override fun onFailure(call: Call<MutableList<Zule>>, t: Throwable) {
                 Log.i("ERRORR", t.toString())
             }
         })
@@ -93,7 +102,7 @@ class ZuleFeedFragment : Fragment() {
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val intent = Intent(context, ZulePlayerActivity::class.java)
-                    intent.putExtra("zule", Gson().toJson(adapter.currentZule))
+                    intent.putExtra("zule", Gson().toJson(zules[viewHolder.adapterPosition]))
                     intent.putExtra("user", Gson().toJson(user))
                     context?.startActivity(intent)
                     activity?.overridePendingTransition(

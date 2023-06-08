@@ -10,30 +10,35 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.google.android.flexbox.AlignItems
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import com.google.gson.Gson
 import com.mizule.mizule.R
+import com.mizule.mizule.adapters.ZuleSuggestionSliderAdapter
 import com.mizule.mizule.dataClass.userDataClass.History
 import com.mizule.mizule.dataClass.userDataClass.User
 import com.mizule.mizule.dataClass.zulesDataClass.Zule
 import com.mizule.mizule.databinding.ActivityZulePlayerBinding
 import com.mizule.mizule.retrofit.RetrofitInstance
 import com.mizule.mizule.retrofit.userApi.UserApi
+import com.mizule.mizule.retrofit.zulesApi.FetchZulesApi
 import com.mizule.mizule.retrofit.zulesApi.ZuleApi
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class ZulePlayerActivity : AppCompatActivity() {
-
     @RequiresApi(Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val binding = ActivityZulePlayerBinding.inflate(layoutInflater)
 
         val userSharedPreferences = getSharedPreferences("USER", MODE_PRIVATE)
         val userEditor = userSharedPreferences.edit()
 
-        val binding = ActivityZulePlayerBinding.inflate(layoutInflater)
 
         val zule: Zule = Gson().fromJson(intent.getStringExtra("zule"), Zule::class.java)
         val user: User = Gson().fromJson(intent.getStringExtra("user"), User::class.java)
@@ -146,7 +151,38 @@ class ZulePlayerActivity : AppCompatActivity() {
             return@OnErrorListener true
         })
 
-        var category = "Similar"
+        val retService: FetchZulesApi =
+            RetrofitInstance.getRetrofitInstance().create(FetchZulesApi::class.java)
+
+        retService.getZulesByGenre(20, zule.genre).enqueue(
+            object : Callback<MutableList<Zule>> {
+                override fun onResponse(
+                    call: Call<MutableList<Zule>>,
+                    response: Response<MutableList<Zule>>
+                ) {
+                    if (response.isSuccessful) {
+                        val zules=response.body()!!
+                        zules.removeIf { it.zuleId==zule.zuleId }
+                        val genreLayoutManager = FlexboxLayoutManager(this@ZulePlayerActivity)
+                        genreLayoutManager.flexWrap = FlexWrap.WRAP
+                        genreLayoutManager.justifyContent = JustifyContent.FLEX_START
+                        genreLayoutManager.alignItems = AlignItems.FLEX_START
+                        binding.zuleSliderSuggestionItem.layoutManager = genreLayoutManager
+                        val genre_adapter =
+                            ZuleSuggestionSliderAdapter(zules, this@ZulePlayerActivity)
+                        binding.zuleSliderSuggestionItem.adapter = genre_adapter
+
+                    } else {
+                        Log.i("ERRORR", response.body().toString())
+                    }
+                }
+
+                override fun onFailure(call: Call<MutableList<Zule>>, t: Throwable) {
+                    Log.i("ERRORR", t.toString())
+                }
+            }
+        )
+
 
         setContentView(binding.root)
     }

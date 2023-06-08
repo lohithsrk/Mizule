@@ -113,6 +113,15 @@
                 android:layout_below="@id/viewsCount"
                 android:src="@drawable/baseline_thumb_up_off_alt_24" />
 
+            <TextView
+                android:id="@+id/likesCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/like_button"
+                android:layout_marginTop="-6dp"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/white" />
             <!--            <ImageView-->
             <!--                android:id="@+id/comment_button"-->
             <!--                android:layout_width="30dp"-->

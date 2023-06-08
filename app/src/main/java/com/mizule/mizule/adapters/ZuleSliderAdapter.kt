@@ -39,8 +39,6 @@ class ZuleSliderAdapter(
 
     val userSharedPreferences = context.getSharedPreferences("USER", AppCompatActivity.MODE_PRIVATE)
     val userEditor = userSharedPreferences.edit()
-    lateinit var currentZule: Zule
-
 
     class ZuleSliderHolder(itemView: ViewGroup) : RecyclerView.ViewHolder(itemView) {
         val thumbnail: ImageView = itemView.findViewById(R.id.thumbnail);
@@ -50,6 +48,7 @@ class ZuleSliderAdapter(
         val views: TextView = itemView.findViewById(R.id.viewsCount);
         val viewsIcon: ImageView = itemView.findViewById(R.id.views);
         val likeButton: ImageView = itemView.findViewById(R.id.like_button);
+        val likesCount: TextView = itemView.findViewById(R.id.likesCount);
 
         //        val commentButton: ImageView = itemView.findViewById(R.id.comment_button);
         val teaserDetails: ConstraintLayout = itemView.findViewById(R.id.teaser_details);
@@ -69,11 +68,10 @@ class ZuleSliderAdapter(
         @SuppressLint("RecyclerView") position: Int
     ) {
 
-        currentZule = zules[position]
-
         holder.title.text = zules[position].title
         holder.description.text = zules[position].description
         holder.views.text = zules[position].views.teaser.size.toString()
+        holder.likesCount.text = zules[position].likes.size.toString()
         holder.likeButton.setImageResource(if (zules[position].likes.indexOf(user.userId) >= 0) R.drawable.baseline_thumb_up_alt_24 else R.drawable.baseline_thumb_up_off_alt_24)
         Glide.with(holder.thumbnail.context).load(zules[position].thumbnail_9_16)
             .into(holder.thumbnail);
@@ -159,19 +157,12 @@ class ZuleSliderAdapter(
             )
         }
 
-        holder.teaser.setOnErrorListener(MediaPlayer.OnErrorListener { mp, what, extra ->
+        holder.teaser.setOnErrorListener(MediaPlayer.OnErrorListener { _, _, _ ->
             Toast.makeText(context, "Cannot play the teaser", Toast.LENGTH_LONG).show()
             holder.thumbnail.visibility = View.VISIBLE
             holder.teaser.stopPlayback()
             return@OnErrorListener true
         })
-
-
-        holder.viewsIcon.setOnClickListener {
-            var intent = Intent(context, ZulePlayerActivity::class.java)
-            intent.putExtra("zule", Gson().toJson(zules[position]))
-            context.startActivity(intent)
-        }
     }
 
     override fun getItemCount(): Int = zules.size

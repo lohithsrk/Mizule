@@ -47,4 +47,7 @@
     <string name="teaser_thumbnail">Teaser thumbnail</string>
     <string name="logo">Logo</string>
     <string name="profile_image">Profile image</string>
+    <string name="similar_to_this">Similar to this</string>
+    <string name="liked">Liked</string>
+    <string name="history">History</string>
 </resources>
