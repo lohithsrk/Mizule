@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -20,9 +21,32 @@ public class UserService {
     private final UserRepository userRepository;
     private final ZuleRepository zuleRepository;
 
+    public ResponseEntity<?> getLiked(String id) {
+        Optional<Users> user = userRepository.findById(id);
+
+        if (user.isEmpty()) {
+            return ResponseEntity.badRequest().body("Invalid request");
+        }
+
+        List<String> liked = user.get().getLiked();
+
+        List<Zule> likes = zuleRepository.findByIds(liked);
+
+        return ResponseEntity.ok(likes);
+    }
+
     public ResponseEntity<?> getHistory(String id) {
-        History history = userRepository.findById(id).get().getHistory();
-        return ResponseEntity.ok(history);
+        Optional<Users> user = userRepository.findById(id);
+
+        if (user.isEmpty()) {
+            return ResponseEntity.badRequest().body("Invalid request");
+        }
+
+        List<String> history = user.get().getHistory().getZules();
+
+        List<Zule> his = zuleRepository.findByIds(history);
+
+        return ResponseEntity.ok(his);
     }
 
     public ResponseEntity<?> postHistory(Map<String, String> body) {

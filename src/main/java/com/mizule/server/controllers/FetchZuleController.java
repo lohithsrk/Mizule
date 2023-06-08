@@ -24,8 +24,13 @@ public class FetchZuleController {
         return fetchZuleService.getParticularZule(zuleId);
     }
 
+    @GetMapping()
+    public ResponseEntity<?> getZuleByGenre(@RequestParam String genre, @RequestParam Integer limit) {
+        return fetchZuleService.getZuleByGenre(genre, limit);
+    }
+
     @GetMapping("/{zulespotId}/{userId}/{zuleId}")
-    public ResponseEntity<?> getParticularZule(@PathVariable String zulespotId, @PathVariable String userId, @PathVariable String zuleId) throws IOException {
+    public ResponseEntity<?> feedZule(@PathVariable String zulespotId, @PathVariable String userId, @PathVariable String zuleId) throws IOException {
         return fetchZuleService.feedZule(zulespotId, userId, zuleId);
     }
 }

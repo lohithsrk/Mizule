@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,6 +52,11 @@ public class FetchZuleService {
         return ResponseEntity.ok(zuleResponse);
     }
 
+    public ResponseEntity<?> getZuleByGenre(String genre, Integer limit) {
+        List<Zule> zules = zuleRepository.findByGenre(genre, limit);
+        return ResponseEntity.ok(zules);
+    }
+
     public ResponseEntity<?> feedZule(String zulespotId, String userId, String zuleId) throws IOException {
         Optional<Users> user = userRepository.findById(userId);
         Optional<Zule> zule = zuleRepository.findById(zuleId.split("_")[0]);
@@ -76,17 +82,10 @@ public class FetchZuleService {
 
         byte[] fileContent = Files.readAllBytes(Path.of(filePath));
 
-        if (
-                zuleId.split("_")[1].equals("teaser-thumbnail.jpg") ||
-                        zuleId.split("_")[1].equals("zule-thumbnail.jpg")
-        ) {
-            return ResponseEntity.ok()
-                    .contentType(MediaType.valueOf("image/jpg"))
-                    .body(fileContent);
+        if (zuleId.split("_")[1].equals("teaser-thumbnail.jpg") || zuleId.split("_")[1].equals("zule-thumbnail.jpg")) {
+            return ResponseEntity.ok().contentType(MediaType.valueOf("image/jpg")).body(fileContent);
         } else {
-            return ResponseEntity.ok()
-                    .contentType(MediaType.valueOf("video/mp4"))
-                    .body(fileContent);
+            return ResponseEntity.ok().contentType(MediaType.valueOf("video/mp4")).body(fileContent);
 
         }
 

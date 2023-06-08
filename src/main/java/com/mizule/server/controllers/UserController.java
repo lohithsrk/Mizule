@@ -13,8 +13,13 @@ import java.util.Map;
 public class UserController {
     private final UserService userService;
 
+    @GetMapping("/{id}/liked")
+    public ResponseEntity<?> getLikes(@PathVariable("id") String id) {
+        return userService.getLiked(id);
+    }
+
     @GetMapping("/{id}/history")
-    public ResponseEntity<?> history(@PathVariable("id") String id) {
+    public ResponseEntity<?> getHistory(@PathVariable("id") String id) {
         return userService.getHistory(id);
     }
 
