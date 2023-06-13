@@ -11,7 +11,7 @@ import com.mizule.mizule.dataClass.userDataClass.User
 import com.mizule.mizule.databinding.ActivitySignupBinding
 import com.mizule.mizule.retrofit.RetrofitInstance
 import com.mizule.mizule.retrofit.authApi.AuthApi
-import com.mizule.mizule.screens.zules.MainActivity
+import com.mizule.mizule.screens.zules.ZulesActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -55,7 +55,7 @@ class SignupActivity : AppCompatActivity() {
                                 val myEditor = sharedPreferences.edit()
                                 myEditor.putString("USER", Gson().toJson(user))
                                 myEditor.apply()
-                                val intent = Intent(this@SignupActivity, MainActivity::class.java)
+                                val intent = Intent(this@SignupActivity, ZulesActivity::class.java)
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                                 startActivity(intent)
                             } else {

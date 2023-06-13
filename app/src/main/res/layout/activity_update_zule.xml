@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:scrollbars="none">
+    android:scrollbars="none"
+    tools:context=".screens.zulespot.UpdateZuleActivity">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -23,7 +24,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/create_zule"
+            android:text="@string/update_zule"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -72,122 +73,13 @@
             android:textSize="@dimen/default_font_size" />
 
         <TextView
+            android:id="@+id/media_upload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/upload_media"
             android:textColor="@color/white"
-            android:textSize="@dimen/default_font_size"
-            android:id="@+id/media_upload"/>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-
-
-            <RelativeLayout
-                android:id="@+id/thumbnail_16_9"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/custom_button_dark"
-                android:gravity="center"
-                app:cardCornerRadius="5dp"
-                app:strokeWidth="0dp">
-
-                <TextView
-                    android:id="@+id/thumbnail_16_9_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="15dp"
-                    android:text="@string/thumbnail_16_9"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/thumbnail_9_16"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/custom_button_dark"
-                android:gravity="center"
-                app:cardCornerRadius="5dp"
-                app:strokeWidth="0dp">
-
-                <TextView
-                    android:id="@+id/thumbnail_9_16_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="15dp"
-                    android:text="@string/thumbnail_9_16"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <RelativeLayout
-                android:id="@+id/zuleVid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/custom_button_dark"
-                android:gravity="center"
-                app:cardCornerRadius="5dp"
-                app:strokeWidth="0dp">
-
-                <TextView
-                    android:id="@+id/zule_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="15dp"
-                    android:text="@string/zule_16_9"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/teaserVid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/custom_button_dark"
-                android:gravity="center"
-                app:cardCornerRadius="5dp"
-                app:strokeWidth="0dp">
-
-                <TextView
-                    android:id="@+id/teaser_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="15dp"
-                    android:text="@string/teaser_9_16"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
-
-
-            </RelativeLayout>
-        </androidx.appcompat.widget.LinearLayoutCompat>
+            android:textSize="@dimen/default_font_size" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -276,7 +168,7 @@
             tools:listitem="@layout/custom_tags" />
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/create_zule"
+            android:id="@+id/update_zule"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
@@ -287,11 +179,11 @@
             >
 
             <TextView
-                android:id="@+id/create_zule_text"
+                android:id="@+id/update_zule_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/create_zule"
+                android:text="@string/update_zule"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
@@ -300,3 +192,5 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>
+
+

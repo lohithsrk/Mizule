@@ -1,4 +1,4 @@
-package com.mizule.mizule.adapters
+package com.mizule.mizule.adapters.profile
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.mizule.mizule.R
 import com.mizule.mizule.dataClass.zulesDataClass.Zule
-import com.mizule.mizule.screens.zules.MainActivity
+import com.mizule.mizule.screens.zules.ZulesActivity
 
 
 class LikesAdapter(
@@ -36,7 +36,7 @@ class LikesAdapter(
 
 
         holder.thumbnail.setOnClickListener {
-            val intent = Intent(context, MainActivity::class.java)
+            val intent = Intent(context, ZulesActivity::class.java)
             intent.putExtra("zule", Gson().toJson(zules[position]))
             context.startActivity(intent)
         }

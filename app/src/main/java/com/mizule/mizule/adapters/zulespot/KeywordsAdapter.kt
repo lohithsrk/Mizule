@@ -1,4 +1,4 @@
-package com.mizule.mizule.adapters
+package com.mizule.mizule.adapters.zulespot
 
 import android.annotation.SuppressLint
 import android.graphics.Color

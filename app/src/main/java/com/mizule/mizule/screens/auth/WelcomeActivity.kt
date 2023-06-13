@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.mizule.mizule.dataClass.userDataClass.User
 import com.mizule.mizule.databinding.ActivityWelcomeBinding
-import com.mizule.mizule.screens.zules.MainActivity
+import com.mizule.mizule.screens.zules.ZulesActivity
 
 class WelcomeActivity : AppCompatActivity() {
     lateinit var user: User
@@ -17,7 +17,7 @@ class WelcomeActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE)
         val userJSON = sharedPreferences.getString("USER", null)
         if (userJSON != null) {
-            val intent = Intent(this@WelcomeActivity, MainActivity::class.java)
+            val intent = Intent(this@WelcomeActivity, ZulesActivity::class.java)
             startActivity(intent)
             finish()
         }

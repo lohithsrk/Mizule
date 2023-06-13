@@ -50,4 +50,8 @@
     <string name="similar_to_this">Similar to this</string>
     <string name="liked">Liked</string>
     <string name="history">History</string>
+    <string name="your_zules">Your Zules</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="update_zule">update zule</string>
 </resources>

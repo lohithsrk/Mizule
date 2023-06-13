@@ -1,5 +1,6 @@
 package com.mizule.mizule.retrofit.zulesApi
 
+import com.mizule.mizule.dataClass.zulesDataClass.Zule
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -22,5 +23,12 @@ interface ZuleApi {
         @Part zule: MultipartBody.Part,
         @Part teaser: MultipartBody.Part
     ): Call<String>
+
+    @POST("zule/delete")
+    fun delete(@Body zuleId: String): Call<String>
+
+    @Multipart
+    @POST("zule/update")
+    fun update(@PartMap body: Map<String, @JvmSuppressWildcards RequestBody>): Call<Zule>
 
 }

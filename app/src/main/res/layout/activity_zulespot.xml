@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.zulespot.ZulespotActivity">
+    tools:context=".screens.zulespot.ZulespotActivity"
+    android:paddingHorizontal="20dp"
+    android:paddingBottom="20dp">
 
     <include
         android:id="@+id/include"
@@ -12,14 +14,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/create_zule"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="144dp"
-        android:layout_marginTop="496dp"
-        android:text="@string/create_zule"
+        android:paddingBottom="5dp"
+        android:text="@string/your_zules"
+        android:textAllCaps="true"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/zulesRV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        tools:itemCount="7"
+        tools:listitem="@layout/zule_slider_suggestion_item" />
+
+    <ImageView
+        android:id="@+id/create_zule"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/baseline_add_box_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

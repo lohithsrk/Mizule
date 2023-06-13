@@ -9,7 +9,7 @@ import com.mizule.mizule.dataClass.userDataClass.User
 import com.mizule.mizule.databinding.ActivitySigninBinding
 import com.mizule.mizule.retrofit.RetrofitInstance
 import com.mizule.mizule.retrofit.authApi.AuthApi
-import com.mizule.mizule.screens.zules.MainActivity
+import com.mizule.mizule.screens.zules.ZulesActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -44,7 +44,7 @@ class SigninActivity : AppCompatActivity() {
                                 val myEditor = sharedPreferences.edit()
                                 myEditor.putString("USER", Gson().toJson(user))
                                 myEditor.apply()
-                                val intent = Intent(this@SigninActivity, MainActivity::class.java)
+                                val intent = Intent(this@SigninActivity, ZulesActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             } else {

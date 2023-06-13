@@ -1,4 +1,4 @@
-package com.mizule.mizule.adapters
+package com.mizule.mizule.adapters.zules
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,10 +11,14 @@ import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.mizule.mizule.R
 import com.mizule.mizule.dataClass.zulesDataClass.Zule
-import com.mizule.mizule.screens.zules.MainActivity
+import com.mizule.mizule.dataClass.zulespotDataClass.Zulespot
+import com.mizule.mizule.screens.zules.ZulesActivity
+import com.mizule.mizule.screens.zulespot.ZulespotZulesActivity
 
 class ZuleSuggestionSliderAdapter(
-    private val zules: MutableList<Zule>, private var context: Context
+    private val zules: MutableList<Zule>,
+    private val zulespot: Zulespot?,
+    private var context: Context
 ) : RecyclerView.Adapter<ZuleSuggestionSliderAdapter.ZuleSuggestionSliderHolder>() {
 
 
@@ -35,8 +39,17 @@ class ZuleSuggestionSliderAdapter(
 
 
         holder.thumbnail.setOnClickListener {
-            val intent = Intent(context,MainActivity::class.java)
-            intent.putExtra("zule",Gson().toJson(zules[position]))
+            val intent = if (zulespot != null) {
+                Intent(context, ZulespotZulesActivity::class.java)
+                    .putExtra("zules", Gson().toJson(zules))
+                    .putExtra("zulespot", Gson().toJson(zulespot))
+                    .putExtra("position", position)
+            } else {
+                Intent(context, ZulesActivity::class.java).putExtra(
+                    "zule", Gson().toJson(zules[position])
+                )
+
+            }
             context.startActivity(intent)
         }
     }

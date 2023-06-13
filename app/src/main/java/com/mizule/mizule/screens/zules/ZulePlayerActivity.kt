@@ -16,10 +16,11 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.gson.Gson
 import com.mizule.mizule.R
-import com.mizule.mizule.adapters.ZuleSuggestionSliderAdapter
+import com.mizule.mizule.adapters.zules.ZuleSuggestionSliderAdapter
 import com.mizule.mizule.dataClass.userDataClass.History
 import com.mizule.mizule.dataClass.userDataClass.User
 import com.mizule.mizule.dataClass.zulesDataClass.Zule
+import com.mizule.mizule.dataClass.zulespotDataClass.Zulespot
 import com.mizule.mizule.databinding.ActivityZulePlayerBinding
 import com.mizule.mizule.retrofit.RetrofitInstance
 import com.mizule.mizule.retrofit.userApi.UserApi
@@ -42,6 +43,7 @@ class ZulePlayerActivity : AppCompatActivity() {
 
         val zule: Zule = Gson().fromJson(intent.getStringExtra("zule"), Zule::class.java)
         val user: User = Gson().fromJson(intent.getStringExtra("user"), User::class.java)
+        val zulespot: Zulespot? = Gson().fromJson(intent.getStringExtra("zulespot"), Zulespot::class.java)
 
         binding.videoView.setVideoPath(zule.zule)
         Glide.with(this).load(zule.thumbnail_9_16).into(binding.teaserThumbanail);
@@ -65,40 +67,39 @@ class ZulePlayerActivity : AppCompatActivity() {
         }
 
         binding.tags.text = tags
+            binding.likeButton.setOnClickListener {
 
-        binding.likeButton.setOnClickListener {
+                val body: MutableMap<String, String> = HashMap()
+                body["zuleId"] = zule.zuleId
+                body["userId"] = user.userId
 
-            val body: MutableMap<String, String> = HashMap()
-            body["zuleId"] = zule.zuleId
-            body["userId"] = user.userId
-
-            val retService: ZuleApi =
-                RetrofitInstance.getRetrofitInstance().create(ZuleApi::class.java)
-            retService.likeZule(body).enqueue(object : Callback<String> {
-                override fun onResponse(call: Call<String>, response: Response<String>) {
-                    if (response.isSuccessful) {
-                        if (zule.likes.indexOf(user.userId) >= 0) {
-                            zule.likes.remove(user.userId)
-                            user.liked.remove(zule.zuleId)
-                            userEditor.putString("USER", Gson().toJson(user))
-                            userEditor.apply()
-                            binding.likeIcon.setImageResource(R.drawable.baseline_thumb_up_off_alt_24)
-                            binding.likesCount.text = zule.likes.size.toString()
-                        } else {
-                            zule.likes.add(user.userId)
-                            user.liked.add(zule.zuleId)
-                            userEditor.putString("USER", Gson().toJson(user))
-                            userEditor.apply()
-                            binding.likeIcon.setImageResource(R.drawable.baseline_thumb_up_alt_24)
-                            binding.likesCount.text = zule.likes.size.toString()
+                val retService: ZuleApi =
+                    RetrofitInstance.getRetrofitInstance().create(ZuleApi::class.java)
+                retService.likeZule(body).enqueue(object : Callback<String> {
+                    override fun onResponse(call: Call<String>, response: Response<String>) {
+                        if (response.isSuccessful) {
+                            if (zule.likes.indexOf(user.userId) >= 0) {
+                                zule.likes.remove(user.userId)
+                                user.liked.remove(zule.zuleId)
+                                userEditor.putString("USER", Gson().toJson(user))
+                                userEditor.apply()
+                                binding.likeIcon.setImageResource(R.drawable.baseline_thumb_up_off_alt_24)
+                                binding.likesCount.text = zule.likes.size.toString()
+                            } else {
+                                zule.likes.add(user.userId)
+                                user.liked.add(zule.zuleId)
+                                userEditor.putString("USER", Gson().toJson(user))
+                                userEditor.apply()
+                                binding.likeIcon.setImageResource(R.drawable.baseline_thumb_up_alt_24)
+                                binding.likesCount.text = zule.likes.size.toString()
+                            }
                         }
                     }
-                }
 
-                override fun onFailure(call: Call<String>, t: Throwable) {
-                }
-            })
-        }
+                    override fun onFailure(call: Call<String>, t: Throwable) {
+                    }
+                })
+            }
 
         binding.thumbnail.setOnClickListener {
             binding.thumbnail.visibility = View.GONE
@@ -161,15 +162,15 @@ class ZulePlayerActivity : AppCompatActivity() {
                     response: Response<MutableList<Zule>>
                 ) {
                     if (response.isSuccessful) {
-                        val zules=response.body()!!
-                        zules.removeIf { it.zuleId==zule.zuleId }
+                        val zules = response.body()!!
+                        zules.removeIf { it.zuleId == zule.zuleId }
                         val genreLayoutManager = FlexboxLayoutManager(this@ZulePlayerActivity)
                         genreLayoutManager.flexWrap = FlexWrap.WRAP
                         genreLayoutManager.justifyContent = JustifyContent.FLEX_START
                         genreLayoutManager.alignItems = AlignItems.FLEX_START
                         binding.zuleSliderSuggestionItem.layoutManager = genreLayoutManager
                         val genre_adapter =
-                            ZuleSuggestionSliderAdapter(zules, this@ZulePlayerActivity)
+                            ZuleSuggestionSliderAdapter(zules, zulespot, this@ZulePlayerActivity)
                         binding.zuleSliderSuggestionItem.adapter = genre_adapter
 
                     } else {

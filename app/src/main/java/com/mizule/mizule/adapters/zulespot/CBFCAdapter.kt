@@ -1,4 +1,4 @@
-package com.mizule.mizule.adapters
+package com.mizule.mizule.adapters.zulespot
 
 import android.annotation.SuppressLint
 import android.graphics.Color
@@ -9,33 +9,30 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mizule.mizule.R
 
-class GenreAdapter(private var tags: List<String>) :
-    RecyclerView.Adapter<GenreAdapter.GenreHolder>() {
+class CBFCAdapter(private var tags: List<String>,private var cbfc_rating:String?) : RecyclerView.Adapter<CBFCAdapter.CBFCHolder>() {
 
+    var selectedCbfcRating: String = cbfc_rating?:"U/A"
 
-    var selectedGenre: String = ""
-
-    class GenreHolder(itemView: ViewGroup) : RecyclerView.ViewHolder(itemView) {
+    class CBFCHolder(itemView: ViewGroup) : RecyclerView.ViewHolder(itemView) {
         val tag: TextView = itemView.findViewById(R.id.tag);
         val container: RelativeLayout = itemView.findViewById(R.id.container)
+
+
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenreHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CBFCHolder {
         val view: ViewGroup =
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.custom_tags, parent, false) as ViewGroup
-        return GenreHolder(view)
+        return CBFCHolder(view)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    override fun onBindViewHolder(
-        holder: GenreHolder,
-        @SuppressLint("RecyclerView") position: Int
-    ) {
+    @SuppressLint("ResourceAsColor", "NotifyDataSetChanged")
+    override fun onBindViewHolder(holder: CBFCHolder, position: Int) {
 
         holder.tag.text = tags[position]
 
-        if (tags[position] == selectedGenre) {
+        if (tags[position] == selectedCbfcRating) {
             holder.container.setBackgroundResource(R.drawable.white_bg_tag)
             holder.tag.setTextColor(Color.BLACK)
         } else {
@@ -44,7 +41,7 @@ class GenreAdapter(private var tags: List<String>) :
         }
 
         holder.container.setOnClickListener {
-            selectedGenre = tags[position]
+            selectedCbfcRating = tags[position]
             notifyDataSetChanged()
         }
 
