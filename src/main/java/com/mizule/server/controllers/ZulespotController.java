@@ -18,19 +18,15 @@ public class ZulespotController {
         return zulespotService.getZulespot(zulespotId);
     }
 
-//    @GetMapping("/user/{userId}")
-//    public ResponseEntity<?> getZulespotWithUserId(@PathVariable String userId){
-//        return zulespotService.getZulespotWithUserId(userId);
-//    }
 
     @PostMapping("/create")
     public ResponseEntity<?> createZulespot(@RequestBody Map<String, String> body) {
         return zulespotService.createZulespot(body);
     }
 
-    @PostMapping("/myzules")
-    public ResponseEntity<?> myZules(@RequestBody Map<String, String> body) {
-        return zulespotService.myZulesPost(body);
+    @GetMapping("/{zulespotId}/zules")
+    public ResponseEntity<?> getZules(@PathVariable String zulespotId) {
+        return zulespotService.getZules(zulespotId);
     }
 
 }

@@ -126,5 +126,42 @@ public class ZuleService {
 
     }
 
+    public ResponseEntity<?> updateZule(Map<String, String> body) throws IOException {
+        Optional<Users> user = userRepository.findById(body.get("userId"));
+        Optional<Zulespot> zulespot = zulespotRepository.findById(body.get("zulespotId"));
+        Optional<Zule> zule = zuleRepository.findById(body.get("zuleId"));
+
+        if (user.isEmpty() || zulespot.isEmpty() || zule.isEmpty()) {
+            return ResponseEntity.badRequest().body("Invalid request");
+        }
+
+        zule.get().setTitle(body.get("title"));
+        zule.get().setDescription(body.get("description"));
+        zule.get().setCbfc_rating(body.get("cbfc_rating"));
+        zule.get().setGenre(body.get("genre"));
+        zule.get().setTags(Arrays.asList(body.get("tags").substring(1, body.get("tags").length() - 1).split(",")));
+        zule.get().setThumbnail_16_9(body.get("thumbnail_16_9"));
+        zule.get().setThumbnail_9_16(body.get("thumbnail_9_16"));
+        zule.get().setZule(body.get("zule"));
+        zule.get().setTeaser(body.get("teaser"));
+
+        zuleRepository.save(zule.get());
+
+        return ResponseEntity.ok(zule.get());
+
+    }
+
+    public ResponseEntity<?> deleteZule(String zuleId) {
+        Optional<Zule> zule = zuleRepository.findById(zuleId.split("\"")[1]);
+        if (!zule.isPresent()) {
+            return ResponseEntity.badRequest().body("Invalid request");
+        }
+
+        zuleRepository.deleteById(zuleId);
+
+        return ResponseEntity.ok("ok");
+
+    }
+
 
 }

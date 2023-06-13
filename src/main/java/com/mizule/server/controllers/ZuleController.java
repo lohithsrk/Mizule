@@ -26,13 +26,16 @@ public class ZuleController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createZule(
-            @RequestParam Map<String, String> body,
-            @RequestParam("thumbnail_16_9") MultipartFile thumbnail_16_9,
-            @RequestParam("thumbnail_9_16") MultipartFile thumbnail_9_16,
-            @RequestParam("zule") MultipartFile zule,
-            @RequestParam("teaser") MultipartFile teaser
-    ) throws IOException {
+    public ResponseEntity<?> createZule(@RequestParam Map<String, String> body, @RequestParam("thumbnail_16_9") MultipartFile thumbnail_16_9, @RequestParam("thumbnail_9_16") MultipartFile thumbnail_9_16, @RequestParam("zule") MultipartFile zule, @RequestParam("teaser") MultipartFile teaser) throws IOException {
         return zuleService.createZule(body, thumbnail_16_9, thumbnail_9_16, zule, teaser);
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<?> updateZule(@RequestParam Map<String, String> body) throws IOException {
+        return zuleService.updateZule(body);
+    }
+    @PostMapping("/delete")
+    public ResponseEntity<?> deleteZule(@RequestBody String zuleId) throws IOException {
+        return zuleService.deleteZule(zuleId);
     }
 }

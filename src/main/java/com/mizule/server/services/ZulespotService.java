@@ -1,6 +1,7 @@
 package com.mizule.server.services;
 
 import com.mizule.server.models.Users;
+import com.mizule.server.models.Zule;
 import com.mizule.server.models.Zulespot;
 import com.mizule.server.repositories.UserRepository;
 import com.mizule.server.repositories.ZuleRepository;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -28,18 +30,6 @@ public class ZulespotService {
         }
     }
 
-//    public ResponseEntity<?> getZulespotWithUserId(String userId) {
-//        Optional<Users> user = userRepository.findById(userId);
-//        if(user.isEmpty() || user.get().getZulespotId()==null){
-//           return ResponseEntity.badRequest().body("Invalid request.");
-//        }
-//        Optional<Zulespot> zulespot = zulespotRepository.findByTitle(user.get().getZulespotId());
-//        if(zulespot.isEmpty()){
-//           return ResponseEntity.badRequest().body("Invalid request.");
-//        }
-//           return ResponseEntity.ok(zulespot.get());
-//    }
-
     public ResponseEntity<?> createZulespot(Map<String, String> body) {
         Optional<Users> user = userRepository.findById(body.get("userId"));
         Optional<Zulespot> zulespot = zulespotRepository.findByTitle(body.get("title"));
@@ -58,13 +48,14 @@ public class ZulespotService {
         return ResponseEntity.ok(newZulespot);
     }
 
-    public ResponseEntity<?> myZulesPost(Map<String, String> body) {
-        Optional<Users> user = userRepository.findById(body.get("userId"));
-        Optional<Zulespot> zulespot = zulespotRepository.findById(body.get("zulespotId"));
+    public ResponseEntity<?> getZules(String zulespotId) {
+        Optional<Zulespot> zulespot = zulespotRepository.findById(zulespotId);
 
-        if (user.isEmpty() || zulespot.isEmpty()) {
+        if (zulespot.isEmpty()) {
             ResponseEntity.badRequest().body("Invalid request.");
         }
-        return ResponseEntity.ok(zuleRepository.findByZulespotId(body.get("zulespotId")).get());
+
+        List<Zule> zules = zuleRepository.findByIds(zulespot.get().getZules());
+        return ResponseEntity.ok(zules);
     }
 }
