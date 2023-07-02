@@ -43,11 +43,12 @@ class ZulePlayerActivity : AppCompatActivity() {
 
         val zule: Zule = Gson().fromJson(intent.getStringExtra("zule"), Zule::class.java)
         val user: User = Gson().fromJson(intent.getStringExtra("user"), User::class.java)
-        val zulespot: Zulespot? = Gson().fromJson(intent.getStringExtra("zulespot"), Zulespot::class.java)
+        val zulespot: Zulespot? =
+            Gson().fromJson(intent.getStringExtra("zulespot"), Zulespot::class.java)
 
         binding.videoView.setVideoPath(zule.zule)
-        Glide.with(this).load(zule.thumbnail_9_16).into(binding.teaserThumbanail);
-        Glide.with(this).load(zule.thumbnail_16_9).into(binding.thumbnail);
+        Glide.with(this).load(zule.thumbnail_9_16).into(binding.teaserThumbanail)
+        Glide.with(this).load(zule.thumbnail_16_9).into(binding.thumbnail)
         binding.title.text = zule.title
         binding.description.text = zule.description
         binding.genreAndCbfc.text = "${zule.cbfc_rating} ${zule.genre}"
@@ -59,47 +60,47 @@ class ZulePlayerActivity : AppCompatActivity() {
         var tags = ""
 
         zule.tags.stream().forEach {
-            if (zule.tags.indexOf(it) != zule.tags.size - 1) {
-                tags += "$it •"
+            tags += if (zule.tags.indexOf(it) != zule.tags.size - 1) {
+                "$it •"
             } else {
-                tags += it
+                it
             }
         }
 
         binding.tags.text = tags
-            binding.likeButton.setOnClickListener {
+        binding.likeButton.setOnClickListener {
 
-                val body: MutableMap<String, String> = HashMap()
-                body["zuleId"] = zule.zuleId
-                body["userId"] = user.userId
+            val body: MutableMap<String, String> = HashMap()
+            body["zuleId"] = zule.zuleId
+            body["userId"] = user.userId
 
-                val retService: ZuleApi =
-                    RetrofitInstance.getRetrofitInstance().create(ZuleApi::class.java)
-                retService.likeZule(body).enqueue(object : Callback<String> {
-                    override fun onResponse(call: Call<String>, response: Response<String>) {
-                        if (response.isSuccessful) {
-                            if (zule.likes.indexOf(user.userId) >= 0) {
-                                zule.likes.remove(user.userId)
-                                user.liked.remove(zule.zuleId)
-                                userEditor.putString("USER", Gson().toJson(user))
-                                userEditor.apply()
-                                binding.likeIcon.setImageResource(R.drawable.baseline_thumb_up_off_alt_24)
-                                binding.likesCount.text = zule.likes.size.toString()
-                            } else {
-                                zule.likes.add(user.userId)
-                                user.liked.add(zule.zuleId)
-                                userEditor.putString("USER", Gson().toJson(user))
-                                userEditor.apply()
-                                binding.likeIcon.setImageResource(R.drawable.baseline_thumb_up_alt_24)
-                                binding.likesCount.text = zule.likes.size.toString()
-                            }
+            val retService: ZuleApi =
+                RetrofitInstance.getRetrofitInstance().create(ZuleApi::class.java)
+            retService.likeZule(body).enqueue(object : Callback<String> {
+                override fun onResponse(call: Call<String>, response: Response<String>) {
+                    if (response.isSuccessful) {
+                        if (zule.likes.indexOf(user.userId) >= 0) {
+                            zule.likes.remove(user.userId)
+                            user.liked.remove(zule.zuleId)
+                            userEditor.putString("USER", Gson().toJson(user))
+                            userEditor.apply()
+                            binding.likeIcon.setImageResource(R.drawable.baseline_thumb_up_off_alt_24)
+                            binding.likesCount.text = zule.likes.size.toString()
+                        } else {
+                            zule.likes.add(user.userId)
+                            user.liked.add(zule.zuleId)
+                            userEditor.putString("USER", Gson().toJson(user))
+                            userEditor.apply()
+                            binding.likeIcon.setImageResource(R.drawable.baseline_thumb_up_alt_24)
+                            binding.likesCount.text = zule.likes.size.toString()
                         }
                     }
+                }
 
-                    override fun onFailure(call: Call<String>, t: Throwable) {
-                    }
-                })
-            }
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                }
+            })
+        }
 
         binding.thumbnail.setOnClickListener {
             binding.thumbnail.visibility = View.GONE

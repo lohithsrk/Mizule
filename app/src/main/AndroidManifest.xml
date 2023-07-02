@@ -25,9 +25,6 @@
             android:name=".screens.zulespot.UpdateZuleActivity"
             android:exported="false" />
         <activity
-            android:name=".screens.zulespot.MyZulesActivity"
-            android:exported="false" />
-        <activity
             android:name=".screens.zules.ZulesActivity"
             android:exported="false" />
         <activity

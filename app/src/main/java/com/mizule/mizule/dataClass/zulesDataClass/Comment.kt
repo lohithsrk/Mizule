@@ -5,6 +5,4 @@ data class Comment(
     var userId: String,
     var name: String,
     var comment: String
-) {
-
-}
+)

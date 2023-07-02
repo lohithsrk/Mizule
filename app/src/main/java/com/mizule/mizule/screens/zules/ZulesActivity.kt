@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -55,7 +53,7 @@ class ZulesActivity : AppCompatActivity() {
         val retService = RetrofitInstance.getRetrofitInstance().create(FetchZulesApi::class.java)
 
         var offset = 0
-
+//TODO offset
         retService.getRandomZules(offset, 50).enqueue(object : Callback<MutableList<Zule>> {
             @RequiresApi(Build.VERSION_CODES.N)
             override fun onResponse(

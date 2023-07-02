@@ -2,7 +2,6 @@ package com.mizule.mizule.adapters.zulespot
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.RelativeLayout
@@ -10,13 +9,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mizule.mizule.R
 
-class GenreAdapter(private var tags: List<String>,private var genre:String?) :
+class GenreAdapter(private var tags: List<String>, genre: String?) :
     RecyclerView.Adapter<GenreAdapter.GenreHolder>() {
 
     var selectedGenre: String = genre ?: ""
 
     class GenreHolder(itemView: ViewGroup) : RecyclerView.ViewHolder(itemView) {
-        val tag: TextView = itemView.findViewById(R.id.tag);
+        val tag: TextView = itemView.findViewById(R.id.tag)
         val container: RelativeLayout = itemView.findViewById(R.id.container)
     }
 

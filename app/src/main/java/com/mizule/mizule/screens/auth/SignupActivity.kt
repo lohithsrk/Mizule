@@ -30,7 +30,7 @@ class SignupActivity : AppCompatActivity() {
             val password = binding.password.text.toString()
             val confirmPassword = binding.confirmPassword.text.toString()
 
-            if (email.length <= 0 || password.length < 8 || confirmPassword.length < 8) {
+            if (email.isEmpty() || password.length < 8 || confirmPassword.length < 8) {
                 Toast.makeText(this@SignupActivity, "Invalid Email or Password", Toast.LENGTH_LONG)
                     .show()
             } else if (password != confirmPassword) {

@@ -137,7 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="10"
                 android:background="@drawable/custom_input"
-                android:hint="@string/enter_your_zule_keywods"
+                android:hint="@string/enter_your_zule_keywords"
                 android:inputType="text"
 
                 android:paddingHorizontal="15dp"

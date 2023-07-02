@@ -8,9 +8,6 @@ import androidx.fragment.app.Fragment
 import com.mizule.mizule.R
 
 class EachZuleFragment : Fragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

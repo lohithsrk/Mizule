@@ -22,7 +22,7 @@ import kotlin.math.abs
 
 class ZulespotZulesActivity : AppCompatActivity() {
     lateinit var user: User
-    lateinit var viewPager2: ViewPager2
+    private lateinit var viewPager2: ViewPager2
     lateinit var adapter: ZuleSliderAdapter
     var zulespot: Zulespot? = null
 

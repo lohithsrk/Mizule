@@ -39,7 +39,7 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val sharedPreferences =
-            this.getSharedPreferences("USER", AppCompatActivity.MODE_PRIVATE)
+            this.getSharedPreferences("USER", MODE_PRIVATE)
         val userJSON = sharedPreferences?.getString("USER", null)
         user = Gson().fromJson(userJSON, User::class.java)
 
@@ -80,9 +80,7 @@ class ProfileActivity : AppCompatActivity() {
             selectTab("liked")
         }
         binding.historyTV.setOnClickListener {
-            Log.i("SDF","nnkn")
             selectTab("history")
-
         }
 
 

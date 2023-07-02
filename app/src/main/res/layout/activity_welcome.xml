@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="@dimen/screen_padding"
@@ -71,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="OR"
+            android:text="@string/or"
             android:textColor="#B5B5B5"
             android:textSize="15sp"
             android:textStyle="bold" />
@@ -109,7 +108,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Continue with Google"
+                android:text="@string/continue_with_google"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
         </LinearLayout>

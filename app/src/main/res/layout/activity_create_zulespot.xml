@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Create Zulespot"
+            android:text="@string/create_zulespot"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textStyle="bold" />

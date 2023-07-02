@@ -9,12 +9,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mizule.mizule.R
 
-class CBFCAdapter(private var tags: List<String>,private var cbfc_rating:String?) : RecyclerView.Adapter<CBFCAdapter.CBFCHolder>() {
+class CBFCAdapter(private var tags: List<String>,cbfc_rating:String?) : RecyclerView.Adapter<CBFCAdapter.CBFCHolder>() {
 
     var selectedCbfcRating: String = cbfc_rating?:"U/A"
 
     class CBFCHolder(itemView: ViewGroup) : RecyclerView.ViewHolder(itemView) {
-        val tag: TextView = itemView.findViewById(R.id.tag);
+        val tag: TextView = itemView.findViewById(R.id.tag)
         val container: RelativeLayout = itemView.findViewById(R.id.container)
 
 

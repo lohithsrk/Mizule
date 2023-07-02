@@ -22,12 +22,12 @@ class CreateZulespot : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        val userSharedPreferences = getSharedPreferences("USER", AppCompatActivity.MODE_PRIVATE)
+        val userSharedPreferences = getSharedPreferences("USER", MODE_PRIVATE)
         val userJSON = userSharedPreferences?.getString("USER", null)
         val user: User = Gson().fromJson(userJSON, User::class.java)
 
         val zulespotSharedPreferences =
-            getSharedPreferences("ZULESPOT", AppCompatActivity.MODE_PRIVATE)
+            getSharedPreferences("ZULESPOT", MODE_PRIVATE)
 
         binding.createZulespot.setOnClickListener {
             val retService: ZulespotApi =

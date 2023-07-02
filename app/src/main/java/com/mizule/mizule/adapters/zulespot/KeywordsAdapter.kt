@@ -12,7 +12,7 @@ import com.mizule.mizule.R
 class KeywordsAdapter(private var tags: MutableList<String>) :
     RecyclerView.Adapter<KeywordsAdapter.KeywordHolder>() {
     class KeywordHolder(itemView: ViewGroup) : RecyclerView.ViewHolder(itemView) {
-        val tag: TextView = itemView.findViewById(R.id.tag);
+        val tag: TextView = itemView.findViewById(R.id.tag) 
         val container: RelativeLayout = itemView.findViewById(R.id.container)
     }
 

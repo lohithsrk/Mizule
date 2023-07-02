@@ -200,7 +200,9 @@ class CreateZule : AppCompatActivity() {
             val thumbnail_16_9_filePart = filePart(thumbnail_16_9_path, "thumbnail_16_9")
             val zule_filePart = filePart(zulePath, "zule")
             val teaser_filePart = filePart(teaserPath, "teaser")
-
+//TODO relete keyword
+            //TODO all week trending
+            //todo genre or cat search
             val retService: ZuleApi =
                 RetrofitInstance.getRetrofitInstance().create(ZuleApi::class.java)
             retService.create(
@@ -234,13 +236,11 @@ class CreateZule : AppCompatActivity() {
     }
 
 
-    fun filePart(path: String, partName: String): MultipartBody.Part {
+    private fun filePart(path: String, partName: String): MultipartBody.Part {
         val file = File(path)
         val requestFile: RequestBody =
             RequestBody.create(MediaType.parse("multipart/form-data"), file)
-        val filePart: MultipartBody.Part =
-            MultipartBody.Part.createFormData(partName, file.name, requestFile)
-        return filePart
+        return MultipartBody.Part.createFormData(partName, file.name, requestFile)
     }
 
     fun uriToFilePath(uri: Uri): String? {

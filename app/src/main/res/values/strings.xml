@@ -12,10 +12,6 @@
     <string name="confirm_password">Confirm password</string>
     <string name="re_enter_password">Re-enter password</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="zules">Zules</string>
-    <string name="discover">Discover</string>
-    <string name="profile">Profile</string>
     <string name="become_a_zulist">Become a Zulist?</string>
     <string name="name">Name</string>
     <string name="welcome">Welcome</string>
@@ -36,7 +32,7 @@
     <string name="tags">Tags</string>
     <string name="genre">Genre</string>
     <string name="keywords">Keywords</string>
-    <string name="enter_your_zule_keywods">Enter your zule keywods</string>
+    <string name="enter_your_zule_keywords">Enter your zule keywords</string>
     <string name="add">ADD</string>
     <string name="thumbnail">Thumbnail</string>
     <string name="zule_thumbnail">Zule thumbnail</string>
@@ -45,13 +41,19 @@
     <string name="u_a_action">U/A • Action</string>
     <string name="_0">0</string>
     <string name="teaser_thumbnail">Teaser thumbnail</string>
+    <string name="history">History</string>
     <string name="logo">Logo</string>
     <string name="profile_image">Profile image</string>
     <string name="similar_to_this">Similar to this</string>
     <string name="liked">Liked</string>
-    <string name="history">History</string>
     <string name="your_zules">Your Zules</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
     <string name="update_zule">update zule</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="create_zulespot">Create Zulespot</string>
+    <string name="or">OR</string>
+    <string name="slide_up_to_watch_zule">SLIDE UP TO WATCH ZULE</string>
+    <string name="discover_more_here">Discover more here</string>
+    <string name="share">share</string>
 </resources>

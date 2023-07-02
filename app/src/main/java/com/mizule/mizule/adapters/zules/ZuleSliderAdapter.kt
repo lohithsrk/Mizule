@@ -3,6 +3,7 @@ package com.mizule.mizule.adapters.zules
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.media.MediaPlayer
 import android.os.Build
 import android.util.Log
@@ -46,28 +47,28 @@ class ZuleSliderAdapter(
     private var context: Context
 ) :
     RecyclerView.Adapter<ZuleSliderAdapter.ZuleSliderHolder>() {
-    lateinit var addActivityResultLauncher: ActivityResultLauncher<Intent>
+    private lateinit var addActivityResultLauncher: ActivityResultLauncher<Intent>
 
-    val userSharedPreferences = context.getSharedPreferences("USER", AppCompatActivity.MODE_PRIVATE)
-    val userEditor = userSharedPreferences.edit()
+    private val userSharedPreferences: SharedPreferences = context.getSharedPreferences("USER", AppCompatActivity.MODE_PRIVATE)
+    val userEditor: SharedPreferences.Editor = userSharedPreferences.edit()!!
 
     class ZuleSliderHolder(itemView: ViewGroup) : RecyclerView.ViewHolder(itemView) {
-        val thumbnail: ImageView = itemView.findViewById(R.id.thumbnail);
+        val thumbnail: ImageView = itemView.findViewById(R.id.thumbnail)
         val teaser: VideoView = itemView.findViewById(R.id.teaser)
-        val title: TextView = itemView.findViewById(R.id.zule_title);
+        val title: TextView = itemView.findViewById(R.id.zule_title)
 
-        val views: TextView = itemView.findViewById(R.id.viewsCount);
-
-        val likeButton: ImageView = itemView.findViewById(R.id.like_button);
-        val likesCount: TextView = itemView.findViewById(R.id.likesCount);
-        val discover: ImageView = itemView.findViewById(R.id.discover);
-        val profile: ImageView = itemView.findViewById(R.id.profile);
-        val menu: ConstraintLayout = itemView.findViewById(R.id.menu);
-        val zulespotMenu: ConstraintLayout = itemView.findViewById(R.id.zulespotMenu);
+        val views: TextView = itemView.findViewById(R.id.viewsCount)
+        val share: ImageView = itemView.findViewById(R.id.share)
+        val likeButton: ImageView = itemView.findViewById(R.id.like_button)
+        val likesCount: TextView = itemView.findViewById(R.id.likesCount)
+        val discover: ImageView = itemView.findViewById(R.id.discover)
+        val profile: ImageView = itemView.findViewById(R.id.profile)
+        val menu: ConstraintLayout = itemView.findViewById(R.id.menu)
+        val zulespotMenu: ConstraintLayout = itemView.findViewById(R.id.zulespotMenu)
         val editZule: ImageView = itemView.findViewById(R.id.edit)
         val deleteZule: ImageView = itemView.findViewById(R.id.delete)
 
-        //        val commentButton: ImageView = itemView.findViewById(R.id.comment_button);
+        //        val commentButton: ImageView = itemView.findViewById(R.id.comment_button)
 
     }
 
@@ -91,7 +92,7 @@ class ZuleSliderAdapter(
         holder.likesCount.text = zules[position].likes.size.toString()
         holder.likeButton.setImageResource(if (zules[position].likes.indexOf(user.userId) >= 0) R.drawable.baseline_thumb_up_alt_24 else R.drawable.baseline_thumb_up_off_alt_24)
         Glide.with(holder.thumbnail.context).load(zules[position].thumbnail_9_16)
-            .into(holder.thumbnail);
+            .into(holder.thumbnail)
         holder.teaser.setVideoPath(zules[position].teaser)
 
         holder.teaser.pause()
@@ -228,20 +229,28 @@ class ZuleSliderAdapter(
                 }
             })
         }
+
+        holder.share.setOnClickListener {
+            val intent= Intent()
+            intent.action=Intent.ACTION_SEND
+            intent.putExtra(Intent.EXTRA_TEXT,"View zule")
+            intent.type="text/plain"
+            context.startActivity(Intent.createChooser(intent,"Share To:"))
+        }
     }
 
-    fun registerActivityResultLauncher(position: Int) {
+    private fun registerActivityResultLauncher(position: Int) {
         addActivityResultLauncher =
-            (context as ComponentActivity).registerForActivityResult(ActivityResultContracts.StartActivityForResult(),
-                ActivityResultCallback { resultActivity ->
-                    val resultCode = resultActivity.resultCode
-                    val data = resultActivity.data
+            (context as ComponentActivity).registerForActivityResult(ActivityResultContracts.StartActivityForResult()
+            ) { resultActivity ->
+                val resultCode = resultActivity.resultCode
+                val data = resultActivity.data
 
-                    if (resultCode == android.app.Activity.RESULT_OK && data != null) {
-                        zules[position] =
-                            Gson().fromJson(data.getStringExtra("zule"), Zule::class.java)
-                    }
-                })
+                if (resultCode == android.app.Activity.RESULT_OK && data != null) {
+                    zules[position] =
+                        Gson().fromJson(data.getStringExtra("zule"), Zule::class.java)
+                }
+            }
     }
 
     override fun getItemCount(): Int = zules.size

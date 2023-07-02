@@ -28,7 +28,10 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:contentDescription="@string/profile_image"
-            android:src="@drawable/profile_img" />
+            android:src="@drawable/profile_img"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/profile_card"
@@ -92,8 +95,7 @@
             android:id="@+id/historyTV"
             android:background="@drawable/teaser_player_container"
             android:paddingVertical="10dp"
-            android:text="History"
-            android:layout_toEndOf="@+id/likedTV"
+            android:text="@string/history"
             android:textAlignment="center" />
     </LinearLayout>
 

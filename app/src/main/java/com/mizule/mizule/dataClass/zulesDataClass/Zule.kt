@@ -15,4 +15,4 @@ data class Zule(
     var teaser: String,
     var thumbnail_16_9: String,
     var thumbnail_9_16: String
-) {}
+)

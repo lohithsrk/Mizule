@@ -81,7 +81,7 @@ class UpdateZuleActivity : AppCompatActivity() {
 
         //Keywords
 
-        keywords = zule?.tags ?: mutableListOf<String>()
+        keywords = zule?.tags ?: mutableListOf()
 
         val keywordsLayoutManager = FlexboxLayoutManager(this)
         keywordsLayoutManager.flexWrap = FlexWrap.WRAP

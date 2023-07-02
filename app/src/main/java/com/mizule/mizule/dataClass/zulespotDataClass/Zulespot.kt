@@ -7,4 +7,4 @@ data class Zulespot(
     var owner: String,
     var followers_id: MutableList<String>,
     var zules: MutableList<String>
-) {}
+)

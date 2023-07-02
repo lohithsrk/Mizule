@@ -7,7 +7,6 @@
         tools:context=".screens.zules.ZulePlayerActivity"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:bind="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
         <include
@@ -57,7 +56,7 @@
                 android:orientation="horizontal">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/teaserThumbanailContainer"
+                    android:id="@+id/teaserThumbnailContainer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/teaser_player_container"
@@ -88,7 +87,7 @@
                     android:layout_marginStart="10dp"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/teaserThumbanailContainer"
+                    app:layout_constraintStart_toEndOf="@+id/teaserThumbnailContainer"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
@@ -96,7 +95,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/zule_title"
-                        android:textSize="22dp"
+                        android:textSize="22sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -140,7 +139,7 @@
                                 android:layout_below="@id/views"
                                 android:layout_marginTop="-3dp"
                                 android:gravity="center"
-                                android:text="0"
+                                android:text="@string/_0"
                                 android:textColor="@color/white"
                                 android:textSize="10sp" />
                         </androidx.appcompat.widget.LinearLayoutCompat>

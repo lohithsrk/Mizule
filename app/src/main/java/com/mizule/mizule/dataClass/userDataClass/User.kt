@@ -12,7 +12,4 @@ data class User(
     var history: History,
     var liked: MutableList<String>,
     var icon: String = "https://img.icons8.com/fluency/48/000000/guest-male.png",
-) {
-
-
-}
+)
