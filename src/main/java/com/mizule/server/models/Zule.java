@@ -162,4 +162,24 @@ public class Zule {
     public void setThumbnail_9_16(String thumbnail_9_16) {
         this.thumbnail_9_16 = thumbnail_9_16;
     }
+
+    @Override
+    public String toString() {
+        return "Zule{" +
+                "zuleId='" + zuleId + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", zulespotId='" + zulespotId + '\'' +
+                ", tags=" + tags +
+                ", genre='" + genre + '\'' +
+                ", views=" + views +
+                ", cbfc_rating='" + cbfc_rating + '\'' +
+                ", likes=" + likes +
+                ", comments=" + comments +
+                ", zule='" + zule + '\'' +
+                ", teaser='" + teaser + '\'' +
+                ", thumbnail_16_9='" + thumbnail_16_9 + '\'' +
+                ", thumbnail_9_16='" + thumbnail_9_16 + '\'' +
+                '}';
+    }
 }

@@ -33,4 +33,9 @@ public class FetchZuleController {
     public ResponseEntity<?> feedZule(@PathVariable String zulespotId, @PathVariable String userId, @PathVariable String zuleId) throws IOException {
         return fetchZuleService.feedZule(zulespotId, userId, zuleId);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> search(@RequestParam String search) {
+        return fetchZuleService.search(search);
+    }
 }

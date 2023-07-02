@@ -6,6 +6,7 @@ import com.mizule.server.models.Zulespot;
 import com.mizule.server.repositories.UserRepository;
 import com.mizule.server.repositories.ZuleRepository;
 import com.mizule.server.repositories.ZulespotRepository;
+import com.mizule.server.utils.SearchResponse;
 import com.mizule.server.utils.ZuleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -88,7 +89,12 @@ public class FetchZuleService {
             return ResponseEntity.ok().contentType(MediaType.valueOf("video/mp4")).body(fileContent);
 
         }
-
-
+    }
+    public ResponseEntity<?> search(String search) {
+        List<Zule> zules = zuleRepository.findBySearchParam(search);
+        List<Zulespot> zulespots = zulespotRepository.findBySearchParam(search);
+        SearchResponse searchResponse =new SearchResponse(zules,zulespots);
+        System.out.println(zulespots);
+        return ResponseEntity.ok(searchResponse);
     }
 }

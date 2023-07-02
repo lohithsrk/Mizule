@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ZuleRepository extends JpaRepository<Zule, String> {
-    Optional<Zule> findByZulespotId(String zulespotId);
-
     @Query(value = "SELECT * FROM zule ORDER BY RANDOM() OFFSET :offset LIMIT :limit", nativeQuery = true)
     List<Zule> findRandomZules(@Param("limit") int limit, @Param("offset") int offset);
 
@@ -19,4 +17,10 @@ public interface ZuleRepository extends JpaRepository<Zule, String> {
 
     @Query(value = "SELECT * FROM zule WHERE zule_id in :ids", nativeQuery = true)
     List<Zule> findByIds(@Param("ids") List<String> ids);
+
+//    @Query(value = "SELECT * FROM zule WHERE title LIKE ?1%", nativeQuery = true)
+//    List<Zule> findBySearchParam( String search);
+
+    @Query(value = "SELECT * FROM zule WHERE (title LIKE CONCAT(CONCAT('% ', :search), ' %') OR title LIKE :search% OR title LIKE CONCAT('% ', :search))", nativeQuery = true)
+    List<Zule> findBySearchParam(@Param("search") String search);
 }

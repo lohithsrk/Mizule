@@ -18,4 +18,7 @@ public interface ZulespotRepository extends JpaRepository<Zulespot, String> {
 
     Optional<Zulespot> findByTitle(String title);
 
+    @Query(value = "SELECT * FROM zulespot WHERE (title LIKE CONCAT(CONCAT('% ', :search), ' %') OR title LIKE :search% OR title LIKE CONCAT('% ', :search))", nativeQuery = true)
+    List<Zulespot> findBySearchParam(@Param("search") String search);
+
 }
