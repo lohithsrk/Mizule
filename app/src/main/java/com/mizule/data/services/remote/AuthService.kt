@@ -7,8 +7,8 @@ import retrofit2.http.POST
 
 interface AuthService {
     @POST("auth/signup")
-    fun signup(@Body body: MutableMap<String, String>): Response<User>
+    suspend fun signup(@Body body: MutableMap<String, String>): Response<User>
 
     @POST("auth/signin")
-    fun signin(@Body body: MutableMap<String, String>): Response<User>
+    suspend fun signin(@Body body: MutableMap<String, String>): Response<User>
 }

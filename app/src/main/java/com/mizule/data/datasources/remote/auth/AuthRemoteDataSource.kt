@@ -4,5 +4,5 @@ import com.mizule.data.dataclasses.userDataClass.User
 import retrofit2.Response
 
 interface AuthRemoteDataSource {
-    fun signup(body: MutableMap<String, String>):Response<User>
+    suspend fun signup(body: MutableMap<String, String>):Response<User>
 }
