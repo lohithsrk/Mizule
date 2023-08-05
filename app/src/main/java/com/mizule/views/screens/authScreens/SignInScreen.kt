@@ -24,17 +24,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.mizule.R
-import com.mizule.ui.theme.MizuleTheme
 import com.mizule.views.components.FormComponents
 
 @Composable
-fun SignUpScreen(navController: NavController, signup: (String, String, String) -> Boolean) {
+fun SignInScreen(navController: NavController, signin: (String, String) -> Boolean) {
 
     var email by remember {
         mutableStateOf("")
@@ -44,12 +41,8 @@ fun SignUpScreen(navController: NavController, signup: (String, String, String) 
         mutableStateOf("")
     }
 
-    var confirmPassword by remember {
-        mutableStateOf("")
-    }
-
     val formComponents = FormComponents()
-    val context= LocalContext.current
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -66,7 +59,7 @@ fun SignUpScreen(navController: NavController, signup: (String, String, String) 
                 .padding(bottom = 10.dp)
         )
         Text(
-            text = "Sign Up",
+            text = "Sign In",
             color = Color.White,
             textAlign = TextAlign.Left,
             fontSize = 30.sp,
@@ -84,15 +77,10 @@ fun SignUpScreen(navController: NavController, signup: (String, String, String) 
             onChange = { password = it },
             placeholder = "Enter password"
         )
-        formComponents.CustomInput(
-            confirmPassword,
-            "Confirm Password",
-            onChange = { it -> confirmPassword = it }, placeholder = "Enter password again"
-        )
         formComponents.CustomButton(
-            text = "SIGN UP",
+            text = "SIGN IN",
             onClick = {
-                val result = signup(email, password, confirmPassword)
+                val result = signin(email, password)
                 if (result) {
                     Toast.makeText(context, "Success", Toast.LENGTH_LONG).show()
                 } else {
@@ -102,25 +90,13 @@ fun SignUpScreen(navController: NavController, signup: (String, String, String) 
         )
         Spacer(Modifier.height(10.dp))
         Row {
-            Text(text = "Already have an account? ", color = Color.White)
-            Text(
-                text = "Sign In",
-                modifier = Modifier.clickable {
-                    navController.navigate("signin") {
-                        popUpTo("welcome")
-                    }
-                },
-                color = Color.White,
-                fontWeight = FontWeight.Bold
-            )
+            Text(text = "Don't have an account? ", color = Color.White)
+            Text(text = "Sign Up", modifier = Modifier.clickable {
+                navController.navigate("signup")
+                {
+                    popUpTo("welcome")
+                }
+            }, color = Color.White, fontWeight = FontWeight.Bold)
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun SignUpScreenPreview() {
-    MizuleTheme {
-        SignUpScreen(rememberNavController()) { _, _, _ -> true }
     }
 }

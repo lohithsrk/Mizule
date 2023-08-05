@@ -1,7 +1,6 @@
 package com.mizule.di
 
-import com.google.gson.GsonBuilder
-import com.mizule.viewmodel.utilities.Constants
+import com.mizule.viewmodel.utilities.Utilities
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,7 +18,7 @@ class RetrofitModule {
     @Singleton
     fun retrofitProvider():Retrofit{
         return Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
+            .baseUrl(Utilities.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create()
             )
             .build()

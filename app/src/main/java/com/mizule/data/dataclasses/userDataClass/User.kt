@@ -1,7 +1,9 @@
 package com.mizule.data.dataclasses.userDataClass
 
+import androidx.room.Entity
 import com.mizule.data.dataclasses.userDataClass.History
 
+@Entity(tableName = "_user")
 data class User(
     var userId: String,
     var name: String,

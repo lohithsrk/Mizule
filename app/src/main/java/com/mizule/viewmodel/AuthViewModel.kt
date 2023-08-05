@@ -19,10 +19,22 @@ class AuthViewModel @Inject constructor(private val authRepo: AuthRepo) : ViewMo
         body["email"] = email
         body["password"] = password
         body["confirmPassword"] = confirmPassword
-        var userResponse:Response<User>? = null
+        var userResponse: Response<User>? = null
         viewModelScope.launch(Dispatchers.IO) {
-            userResponse=authRepo.signup(body)
-            Log.i("TAG",userResponse?.body().toString())
+            userResponse = authRepo.signup(body)
+            Log.i("TAG", userResponse?.body().toString())
+        }
+        return userResponse?.isSuccessful == true && userResponse?.body() != null
+    }
+
+    fun signin(email: String, password: String): Boolean {
+        val body: MutableMap<String, String> = HashMap()
+        body["email"] = email
+        body["password"] = password
+        var userResponse: Response<User>? = null
+        viewModelScope.launch(Dispatchers.IO) {
+            userResponse = authRepo.signin(body)
+            Log.i("TAG", userResponse?.body().toString())
         }
         return userResponse?.isSuccessful == true && userResponse?.body() != null
     }

@@ -1,5 +1,7 @@
 package com.mizule.data.dataclasses.zulesDataClass
 
+import androidx.room.Entity
+
 data class Zule(
     var zuleId: String,
     var title: String,

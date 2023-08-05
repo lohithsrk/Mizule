@@ -5,4 +5,5 @@ import retrofit2.Response
 
 interface AuthRepo {
     suspend fun signup(body: MutableMap<String, String>):Response<User>
+    suspend fun signin(body: MutableMap<String, String>):Response<User>
 }

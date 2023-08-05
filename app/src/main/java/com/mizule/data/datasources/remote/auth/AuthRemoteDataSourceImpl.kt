@@ -8,4 +8,8 @@ class AuthRemoteDataSourceImpl(private val authService: AuthService):AuthRemoteD
     override suspend fun signup(body: MutableMap<String, String>): Response<User> {
         return authService.signup(body)
     }
+
+    override suspend fun signin(body: MutableMap<String, String>): Response<User> {
+        return authService.signin(body)
+    }
 }
