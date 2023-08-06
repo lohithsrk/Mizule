@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -34,7 +33,11 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberNavController()
                     val authViewModel = hiltViewModel<AuthViewModel>()
-                    NavHost(navController = navController, startDestination = "zulespot") {
+
+                    NavHost(
+                        navController = navController,
+                        startDestination = if (authViewModel.user != null) "user" else "welcome"
+                    ) {
                         navigation(
                             startDestination = "welcome",
                             route = "auth"
@@ -48,6 +51,15 @@ class MainActivity : ComponentActivity() {
                             composable("signin") {
                                 SignInScreen(navController, authViewModel::signin)
                             }
+                        }
+                        navigation(
+                            startDestination = "zules",
+                            route = "user"
+                        ) {
+                            composable("zules") {
+                                CreateZuleScreen()
+                            }
+
                         }
                         navigation(
                             startDestination = "createzule",

@@ -13,8 +13,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(private val authRepo: AuthRepo) : ViewModel() {
+    var user: User? = null
+
+    init {
+        getCurrentUser()
+    }
 
     fun signup(email: String, password: String, confirmPassword: String): Boolean {
+
         val body: MutableMap<String, String> = HashMap()
         body["email"] = email
         body["password"] = password
@@ -24,7 +30,12 @@ class AuthViewModel @Inject constructor(private val authRepo: AuthRepo) : ViewMo
             userResponse = authRepo.signup(body)
             Log.i("TAG", userResponse?.body().toString())
         }
-        return userResponse?.isSuccessful == true && userResponse?.body() != null
+        return if (userResponse?.isSuccessful == true) {
+            user = userResponse!!.body()
+            true
+        } else {
+            false
+        }
     }
 
     fun signin(email: String, password: String): Boolean {
@@ -37,5 +48,13 @@ class AuthViewModel @Inject constructor(private val authRepo: AuthRepo) : ViewMo
             Log.i("TAG", userResponse?.body().toString())
         }
         return userResponse?.isSuccessful == true && userResponse?.body() != null
+    }
+
+    private fun getCurrentUser() {
+        viewModelScope.launch(Dispatchers.IO) {
+            authRepo.getCurrentUser().collect {
+                user = it
+            }
+        }
     }
 }
